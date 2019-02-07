@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-//smaple comment
 export default class Example extends Component {
     render() {
         return (
