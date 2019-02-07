@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 
 
 function RenderRows(props){
-    console.log(props);
     return props.todos.map(todo =>{
         return (
             <tr key={todo.id}>

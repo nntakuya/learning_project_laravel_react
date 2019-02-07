@@ -60694,7 +60694,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 
 function RenderRows(props) {
-  console.log(props);
   return props.todos.map(function (todo) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: todo.id
