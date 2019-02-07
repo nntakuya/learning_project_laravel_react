@@ -60682,23 +60682,27 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 
 
 
 function RenderRows(props) {
+  console.log(props);
   return props.todos.map(function (todo) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: todo.id
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, todo.id), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, todo.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "btn btn-secondary"
+      className: "btn btn-secondary",
+      onClick: function onClick() {
+        return props.deleteTask(todo);
+      }
     }, "\u5B8C\u4E86")));
   });
 }
@@ -60715,8 +60719,12 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TodoApp).call(this));
     _this.state = {
-      todos: []
+      todos: [],
+      todo: ''
     };
+    _this.inputChange = _this.inputChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.addTodo = _this.addTodo.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.deleteTask = _this.deleteTask.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
@@ -60732,14 +60740,82 @@ function (_Component) {
       }).catch(function (error) {
         console.log('componentDidMount error', error);
       });
+    } //入力されたら（都度）
+
+  }, {
+    key: "inputChange",
+    value: function inputChange(event) {
+      switch (event.target.name) {
+        case 'todo':
+          this.setState({
+            todo: event.target.value
+          });
+          break;
+
+        default:
+          break;
+      }
+    }
+  }, {
+    key: "addTodo",
+    value: function addTodo() {
+      var _this3 = this;
+
+      //空の場合、弾く
+      if (this.state.todo == '') {
+        return;
+      } //入力値を投げる
+
+
+      axios.post('/api/add', {
+        title: this.state.todo
+      }).then(function (res) {
+        //戻り値をtodosにセット
+        _this3.setState({
+          todos: res.data,
+          todo: ''
+        });
+      }).catch(function (error) {
+        console.log(error);
+      });
+    } //完了ボタンがクリックされると、指定されたタスクを削除する
+
+  }, {
+    key: "deleteTask",
+    value: function deleteTask(todo) {
+      var _this4 = this;
+
+      axios.post('/api/del', {
+        id: todo.id
+      }).then(function (res) {
+        _this4.setState({
+          todos: res.data
+        });
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group mt-4"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "todo"
+      }, "\u65B0\u898FTodo"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        name: "todo",
+        value: this.state.todo,
+        onChange: this.inputChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary",
+        onClick: this.addTodo
+      }, "\u767B\u9332"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table mt-5"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "ID"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u30BF\u30B9\u30AF"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u5B8C\u4E86"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RenderRows, {
-        todos: this.state.todos
+        todos: this.state.todos,
+        deleteTask: this.deleteTask
       }))));
     }
   }]);
