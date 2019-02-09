@@ -2,10 +2,11 @@ export const ADD_TODO = 'ADD_TODO'
 
 //Action Creators
 
-export function addTodo(text){
+//ここの引数のやり方を見直す必要がある
+export function addTodo(todo_data){
+    console.log(todo_data);
     return {
         type:ADD_TODO,
-        id,
-        text
+        todo_data
     }
 }

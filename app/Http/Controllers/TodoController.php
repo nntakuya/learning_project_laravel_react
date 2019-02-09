@@ -9,6 +9,7 @@ class TodoController extends Controller
 {
     public function getTodos(){
         $todos = Todo::all();
+        // logger($todos);
         return $todos;
     }
 

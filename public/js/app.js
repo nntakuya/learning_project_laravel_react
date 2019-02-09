@@ -67623,6 +67623,38 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/redux-devtools-extension/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/redux-devtools-extension/index.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var compose = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js").compose;
+
+exports.__esModule = true;
+exports.composeWithDevTools = (
+  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ :
+    function() {
+      if (arguments.length === 0) return undefined;
+      if (typeof arguments[0] === 'object') return compose;
+      return compose.apply(null, arguments);
+    }
+);
+
+exports.devToolsEnhancer = (
+  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION__ :
+    function() { return function(noop) { return noop; } }
+);
+
+
+/***/ }),
+
 /***/ "./node_modules/redux-form/es/ConnectedField.js":
 /*!******************************************************!*\
   !*** ./node_modules/redux-form/es/ConnectedField.js ***!
@@ -76588,12 +76620,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_TODO", function() { return ADD_TODO; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addTodo", function() { return addTodo; });
 var ADD_TODO = 'ADD_TODO'; //Action Creators
+//ここの引数のやり方を見直す必要がある
 
-function addTodo(text) {
+function addTodo(todo_data) {
+  console.log(todo_data);
   return {
     type: ADD_TODO,
-    id: id,
-    text: text
+    todo_data: todo_data
   };
 }
 
@@ -76606,20 +76639,7 @@ function addTodo(text) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes React and other helpers. It's a great starting point while
- * building robust, powerful web applications using React + Laravel.
- */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-/**
- * Next, we will create a fresh React component instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-// require('./components/Example');
-// require('./components/TodoApp');
-
 
 __webpack_require__(/*! ./index */ "./resources/js/index.js");
 
@@ -76782,23 +76802,89 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _Todo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Todo */ "./resources/js/components/Todo.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../actions */ "./resources/js/actions/index.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 
 
 
 
-var TodoList = function TodoList(_ref) {
-  var todos = _ref.todos;
-  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, "sample text"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, "sample text"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, "sample text"));
-};
+
+
+var TodoList =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(TodoList, _React$Component);
+
+  function TodoList(props) {
+    _classCallCheck(this, TodoList);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(TodoList).call(this));
+  }
+
+  _createClass(TodoList, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this = this;
+
+      var onAddTodo = this.props.onAddTodo;
+      console.log('onAddTodo', onAddTodo);
+      axios.get('/api/getTodos').then(function (res) {
+        // console.log('res.data',res.data);
+        console.log('Before this.props', _this.props);
+        res.data.map(function (todo) {
+          console.log('test', todo);
+          onAddTodo(todo);
+        });
+        console.log('After this.props', _this.props);
+      }).catch(function (error) {
+        console.log('componentDidMount error', error);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, "sample text"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, "sample text"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, "sample text"));
+    }
+  }]);
+
+  return TodoList;
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component); //下記の"todos"キーの値として、componentDidMountでLaravel APIから取得したデータをセットする
+
 
 var mapStateTodProps = function mapStateTodProps(state) {
   return {
     todos: state.todos
   };
+}; //connectで結び付けられたComponentクラスのプロパティとしてセットされる
+//今回の場合だと、プロパティのonAddTodoに"(todo)=>dispatch(addTodo(todo))"としてセットされる
+
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    onAddTodo: function onAddTodo(todo) {
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_4__["addTodo"])(todo));
+    }
+  };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateTodProps, null)(TodoList));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateTodProps, mapDispatchToProps)(TodoList));
 
 /***/ }),
 
@@ -76883,13 +76969,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./reducers */ "./resources/js/reducers/index.js");
 /* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/App */ "./resources/js/components/App.js");
+/* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! redux-devtools-extension */ "./node_modules/redux-devtools-extension/index.js");
+/* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
 
 
 
-var store = Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(_reducers__WEBPACK_IMPORTED_MODULE_4__["default"]);
+
+var store = Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(_reducers__WEBPACK_IMPORTED_MODULE_4__["default"], Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_6__["composeWithDevTools"])());
 Object(react_dom__WEBPACK_IMPORTED_MODULE_1__["render"])(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_2__["Provider"], {
   store: store
 }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_App__WEBPACK_IMPORTED_MODULE_5__["default"], null)), document.getElementById('todoApp'));
@@ -76910,6 +76999,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-form */ "./node_modules/redux-form/es/index.js");
 
 
+ //reducersは、コンポーネントのどこかで変更があった場合にすべてのreducersが働く仕様になっている
+//なので、switch文でactionのtypeを引数に、分岐処理をする必要がある
 
 var todoApp = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   todos: _todo__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -76937,7 +77028,13 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
+ //test
 
+var initialState = {
+  data: {
+    todo: []
+  }
+};
 
 var todos = function todos() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -76945,9 +77042,15 @@ var todos = function todos() {
 
   switch (action.type) {
     case _actions__WEBPACK_IMPORTED_MODULE_0__["ADD_TODO"]:
+      console.log('Reducer state', state);
+      console.log('Reducer action', action); //"...state" : 現在の状態のデータ
+      //"{}" : これか状態に追加するデータ
+
+      console.log('...state', [].concat(_toConsumableArray(state), [{
+        todo_data: action.todo_data
+      }]));
       return [].concat(_toConsumableArray(state), [{
-        id: action.id,
-        text: action.text
+        todo_data: action.todo_data
       }]);
 
     default:

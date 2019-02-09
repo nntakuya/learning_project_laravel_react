@@ -14,7 +14,11 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware'=>'api'],function(){
+    //デモのルーティング
     Route::get('get','TodoController@getTodos');
     Route::post('add','TodoController@addTodo');
     Route::post('del','TodoController@deleteTodo');
+
+    //アプリ用ルーティング
+    Route::get('getTodos','TodoController@getTodos');
 });
