@@ -14,11 +14,9 @@ function submitMyform(data){
     });
 }
 
-console.log('AddTodo.js');
 let ContactForm = props => {
     const {handleSubmit, reset} = props;
 
-    console.log('sample');
 
     return (
         <form

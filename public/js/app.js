@@ -76623,7 +76623,6 @@ var ADD_TODO = 'ADD_TODO'; //Action Creators
 //ここの引数のやり方を見直す必要がある
 
 function addTodo(todo_data) {
-  console.log(todo_data);
   return {
     type: ADD_TODO,
     todo_data: todo_data
@@ -76780,8 +76779,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Todo = function Todo(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "sample1");
-};
+  return console.log('Todo', props.todos.todo_data), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, props.todos.todo_data.title);
+}; // const Todo = (props) =>(
+//     console.log('Todo props', props.todos),
+//     props.todos.map((todo)=>{
+//         console.log('li', todo.todo_data.title);
+//         <li>{todo.todo_data.title}</li>
+//     })
+// )
+
 
 /* harmony default export */ __webpack_exports__["default"] = (Todo);
 
@@ -76844,12 +76850,11 @@ function (_React$Component) {
       var _this = this;
 
       var onAddTodo = this.props.onAddTodo;
-      console.log('onAddTodo', onAddTodo);
       axios.get('/api/getTodos').then(function (res) {
         // console.log('res.data',res.data);
-        console.log('Before this.props', _this.props);
+        // console.log('Before this.props',this.props);
         res.data.map(function (todo) {
-          console.log('test', todo);
+          // console.log('test',todo);
           onAddTodo(todo);
         });
         console.log('After this.props', _this.props);
@@ -76860,12 +76865,19 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, "sample text"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, "sample text"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, "sample text"));
+      console.log('render', this.props.todos);
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.props.todos.map(function (todo) {
+        return console.log('key', todo.todo_data.id), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Todo__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          key: todo.todo_data.id,
+          todos: todo
+        });
+      }));
     }
   }]);
 
   return TodoList;
 }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component); //下記の"todos"キーの値として、componentDidMountでLaravel APIから取得したデータをセットする
+//引数のstateは、現在の状態を格納している変数
 
 
 var mapStateTodProps = function mapStateTodProps(state) {
@@ -77042,13 +77054,12 @@ var todos = function todos() {
 
   switch (action.type) {
     case _actions__WEBPACK_IMPORTED_MODULE_0__["ADD_TODO"]:
-      console.log('Reducer state', state);
-      console.log('Reducer action', action); //"...state" : 現在の状態のデータ
-      //"{}" : これか状態に追加するデータ
-
-      console.log('...state', [].concat(_toConsumableArray(state), [{
-        todo_data: action.todo_data
-      }]));
+      // console.log('Reducer state',state);
+      // console.log('Reducer action',action);
+      //1. "...state" : 現在の状態のデータ
+      //2. "{}" : これか状態に追加するデータ
+      //'1'と"2"を配列で連結した上で、returnしている
+      // console.log('...state',[...state,{todo_data:action.todo_data}]);
       return [].concat(_toConsumableArray(state), [{
         todo_data: action.todo_data
       }]);
