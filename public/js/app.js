@@ -76746,7 +76746,14 @@ function (_React$Component) {
     _classCallCheck(this, App);
 
     return _possibleConstructorReturn(this, _getPrototypeOf(App).call(this));
-  }
+  } // render(){
+  //     return (
+  //         <div>
+  //             <AddTodo />
+  //         </div>
+  //     );
+  // }
+
 
   _createClass(App, [{
     key: "render",
@@ -76785,6 +76792,17 @@ var Todo = function Todo(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Todo);
+
+/***/ }),
+
+/***/ "./resources/js/components/TodoForm.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/TodoForm.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /var/www/resources/js/components/TodoForm.js: Unexpected token, expected \",\" (46:38)\n\n\u001b[0m \u001b[90m 44 | \u001b[39m        })\u001b[0m\n\u001b[0m \u001b[90m 45 | \u001b[39m        \u001b[33m.\u001b[39mthen((res)\u001b[33m=>\u001b[39m{\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 46 | \u001b[39m            console\u001b[33m.\u001b[39mlog(\u001b[32m'TodoForm.js'\u001b[39m res\u001b[32m',res);\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 47 | \u001b[39m            \u001b[90m//追加したデータのidを取得し、TodoListの末尾に追加する処理が必要？\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 48 | \u001b[39m            \u001b[90m//しかし、何もしなくてもTodoListのTodoコンポーネントが追加されている\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 49 | \u001b[39m            \u001b[90m//おそらく、app.jsで<propvider>タグでstoreを囲んでいるため、自動で追加されている気がする\u001b[39m\u001b[0m\n    at Object.raise (/var/www/node_modules/@babel/parser/lib/index.js:3831:17)\n    at Object.unexpected (/var/www/node_modules/@babel/parser/lib/index.js:5143:16)\n    at Object.expect (/var/www/node_modules/@babel/parser/lib/index.js:5135:28)\n    at Object.parseCallExpressionArguments (/var/www/node_modules/@babel/parser/lib/index.js:6055:14)\n    at Object.parseSubscript (/var/www/node_modules/@babel/parser/lib/index.js:5965:29)\n    at Object.parseSubscripts (/var/www/node_modules/@babel/parser/lib/index.js:5882:19)\n    at Object.parseExprSubscripts (/var/www/node_modules/@babel/parser/lib/index.js:5872:17)\n    at Object.parseMaybeUnary (/var/www/node_modules/@babel/parser/lib/index.js:5842:21)\n    at Object.parseExprOps (/var/www/node_modules/@babel/parser/lib/index.js:5729:23)\n    at Object.parseMaybeConditional (/var/www/node_modules/@babel/parser/lib/index.js:5702:23)\n    at Object.parseMaybeAssign (/var/www/node_modules/@babel/parser/lib/index.js:5647:21)\n    at Object.parseExpression (/var/www/node_modules/@babel/parser/lib/index.js:5595:23)\n    at Object.parseStatementContent (/var/www/node_modules/@babel/parser/lib/index.js:7375:23)\n    at Object.parseStatement (/var/www/node_modules/@babel/parser/lib/index.js:7248:17)\n    at Object.parseBlockOrModuleBlockBody (/var/www/node_modules/@babel/parser/lib/index.js:7812:25)\n    at Object.parseBlockBody (/var/www/node_modules/@babel/parser/lib/index.js:7799:10)\n    at Object.parseBlock (/var/www/node_modules/@babel/parser/lib/index.js:7788:10)\n    at Object.parseFunctionBody (/var/www/node_modules/@babel/parser/lib/index.js:6876:24)\n    at Object.parseArrowExpression (/var/www/node_modules/@babel/parser/lib/index.js:6829:10)\n    at Object.parseParenAndDistinguishExpression (/var/www/node_modules/@babel/parser/lib/index.js:6458:12)\n    at Object.parseExprAtom (/var/www/node_modules/@babel/parser/lib/index.js:6215:21)\n    at Object.parseExprAtom (/var/www/node_modules/@babel/parser/lib/index.js:3552:20)\n    at Object.parseExprSubscripts (/var/www/node_modules/@babel/parser/lib/index.js:5862:23)\n    at Object.parseMaybeUnary (/var/www/node_modules/@babel/parser/lib/index.js:5842:21)\n    at Object.parseExprOps (/var/www/node_modules/@babel/parser/lib/index.js:5729:23)\n    at Object.parseMaybeConditional (/var/www/node_modules/@babel/parser/lib/index.js:5702:23)\n    at Object.parseMaybeAssign (/var/www/node_modules/@babel/parser/lib/index.js:5647:21)\n    at Object.parseExprListItem (/var/www/node_modules/@babel/parser/lib/index.js:6940:18)\n    at Object.parseCallExpressionArguments (/var/www/node_modules/@babel/parser/lib/index.js:6070:22)\n    at Object.parseSubscript (/var/www/node_modules/@babel/parser/lib/index.js:5965:29)\n    at Object.parseSubscripts (/var/www/node_modules/@babel/parser/lib/index.js:5882:19)\n    at Object.parseExprSubscripts (/var/www/node_modules/@babel/parser/lib/index.js:5872:17)\n    at Object.parseMaybeUnary (/var/www/node_modules/@babel/parser/lib/index.js:5842:21)\n    at Object.parseExprOps (/var/www/node_modules/@babel/parser/lib/index.js:5729:23)\n    at Object.parseMaybeConditional (/var/www/node_modules/@babel/parser/lib/index.js:5702:23)\n    at Object.parseMaybeAssign (/var/www/node_modules/@babel/parser/lib/index.js:5647:21)");
 
 /***/ }),
 
@@ -76859,12 +76877,10 @@ function (_React$Component) {
     value: function render() {
       // console.log('render',this.props.todos);
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.props.todos.map(function (todo) {
-        return (// console.log('key',todo.todo_data.id),
-          react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Todo__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            key: todo.todo_data.id,
-            todos: todo
-          })
-        );
+        return console.log('key', todo.todo_data.id), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Todo__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          key: todo.todo_data.id,
+          todos: todo
+        });
       }));
     }
   }]);
@@ -76906,70 +76922,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./resources/js/actions/index.js");
-/* harmony import */ var redux_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux-form */ "./node_modules/redux-form/es/index.js");
+/* harmony import */ var _components_TodoForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/TodoForm */ "./resources/js/components/TodoForm.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./resources/js/actions/index.js");
 
 
 
 
 
-function submit(value, dispatch, sample) {
-  console.log('value', value);
-  console.log('dispatch', dispatch);
-  console.log('sample', sample);
-  dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["addTodo"])(value));
-}
-
-var ContactForm = function ContactForm(_ref) {
-  var handleChange = _ref.handleChange,
-      handleSubmit = _ref.handleSubmit,
-      value = _ref.value,
-      reset = _ref.reset;
-  // const {handleSubmit, reset} = props;
-  console.log('handleSubmit', handleSubmit);
-  console.log('value', value);
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    onSubmit: handleSubmit(submit)
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "todo"
-  }, "Todo"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(redux_form__WEBPACK_IMPORTED_MODULE_3__["Field"], {
-    name: "todo",
-    component: "input",
-    type: "text"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "submit"
-  }, "Submit"));
-}; // let ContactForm = props => {
-//     const {handleSubmit, reset} = props;
-//     console.log('handleSubmit',handleSubmit);
-//
-//     return (
-//         <form
-//             onSubmit= {
-//                 handleSubmit(submit)
-//             }
-//         >
-//             <div>
-//                 <label htmlFor="todo">Todo</label>
-//                 <Field name="todo" component="input" type="text" />
-//             </div>
-//             <button type="submit">Submit</button>
-//         </form>
-//
-//     )
-// }
-//フォーム送信後、フォーム内の値を空にする
+var ContentForm = function ContentForm(_ref) {
+  var handleInsertSubmit = _ref.handleInsertSubmit,
+      values = _ref.values;
+  return console.log('AddTodo.js handleInsertSubmit', handleInsertSubmit), console.log('AddTodo.js values', values), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_TodoForm__WEBPACK_IMPORTED_MODULE_2__["default"] // onSubmit={ values =>handleInsertSubmit(values.todo) }
+  , null);
+}; // const mapDispatchToProps = (dispatch) => ({
+//     handleInsertSubmit: value => dispatch(addTodo(value))
+// })
 
 
-var afterSubmit = function afterSubmit(result, dispatch) {
-  return dispatch(Object(redux_form__WEBPACK_IMPORTED_MODULE_3__["reset"])('contentForm'));
-};
-
-ContactForm = Object(redux_form__WEBPACK_IMPORTED_MODULE_3__["reduxForm"])({
-  form: 'contentForm',
-  onSubmitSuccess: afterSubmit
-})(ContactForm);
-/* harmony default export */ __webpack_exports__["default"] = (ContactForm);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(null, null)(ContentForm));
 
 /***/ }),
 

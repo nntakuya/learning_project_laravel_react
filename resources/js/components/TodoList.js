@@ -34,7 +34,7 @@ class TodoList extends React.Component {
         return (
             <ul>
                 {this.props.todos.map(todo=>(
-                    // console.log('key',todo.todo_data.id),
+                    console.log('key',todo.todo_data.id),
                     <Todo key={todo.todo_data.id} todos={todo}/>
                 ))}
             </ul>

@@ -21,4 +21,5 @@ Route::group(['middleware'=>'api'],function(){
 
     //アプリ用ルーティング
     Route::get('getTodos','TodoController@getTodos');
+    Route::post('createTodo','TodoController@create');
 });

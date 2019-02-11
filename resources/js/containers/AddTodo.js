@@ -1,62 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addTodo } from '../actions'
-import {Field, reduxForm, reset } from 'redux-form'
+import TodoForm from '../components/TodoForm';
+import {addTodo} from '../actions'
 
-function submit(value, dispatch,sample){
-    console.log('value',value);
-    console.log('dispatch',dispatch);
-    console.log('sample',sample);
-    dispatch(addTodo(value));
-}
+let ContentForm = ({ handleInsertSubmit, values }) =>(
+    console.log('AddTodo.js handleInsertSubmit',handleInsertSubmit),
+    console.log('AddTodo.js values',values),
+    <TodoForm
+        // onSubmit={ values =>handleInsertSubmit(values.todo) }
+    />
+)
 
-let ContactForm = ({ handleChange, handleSubmit, value, reset }) => {
-    // const {handleSubmit, reset} = props;
-    console.log('handleSubmit',handleSubmit);
-    console.log('value',value);
 
-    return (
-        <form
-            onSubmit= {
-                handleSubmit(submit)
-            }
-        >
-            <div>
-                <label htmlFor="todo">Todo</label>
-                <Field name="todo" component="input" type="text" />
-            </div>
-            <button type="submit">Submit</button>
-        </form>
 
-    )
-}
+// const mapDispatchToProps = (dispatch) => ({
+//     handleInsertSubmit: value => dispatch(addTodo(value))
+// })
 
-// let ContactForm = props => {
-//     const {handleSubmit, reset} = props;
-//     console.log('handleSubmit',handleSubmit);
-//
-//     return (
-//         <form
-//             onSubmit= {
-//                 handleSubmit(submit)
-//             }
-//         >
-//             <div>
-//                 <label htmlFor="todo">Todo</label>
-//                 <Field name="todo" component="input" type="text" />
-//             </div>
-//             <button type="submit">Submit</button>
-//         </form>
-//
-//     )
-// }
-
-//フォーム送信後、フォーム内の値を空にする
-const afterSubmit = (result, dispatch) => dispatch(reset('contentForm'))
-
-ContactForm = reduxForm({
-    form:'contentForm',
-    onSubmitSuccess:afterSubmit
-})(ContactForm)
-
-export default ContactForm;
+export default connect(null,null)(ContentForm);
