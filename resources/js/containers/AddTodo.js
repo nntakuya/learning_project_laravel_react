@@ -3,20 +3,17 @@ import { connect } from 'react-redux';
 import { addTodo } from '../actions'
 import {Field, reduxForm, reset } from 'redux-form'
 
-function submit(value, dispatch){
+function submit(value, dispatch,sample){
+    console.log('value',value);
+    console.log('dispatch',dispatch);
+    console.log('sample',sample);
     dispatch(addTodo(value));
 }
 
-function submitMyform(data){
-    const { createRecord, reset } = this.props;
-    return createRecord(data).then(()=>{
-        reset()
-    });
-}
-
-let ContactForm = props => {
-    const {handleSubmit, reset} = props;
-
+let ContactForm = ({ handleChange, handleSubmit, value, reset }) => {
+    // const {handleSubmit, reset} = props;
+    console.log('handleSubmit',handleSubmit);
+    console.log('value',value);
 
     return (
         <form
@@ -33,6 +30,26 @@ let ContactForm = props => {
 
     )
 }
+
+// let ContactForm = props => {
+//     const {handleSubmit, reset} = props;
+//     console.log('handleSubmit',handleSubmit);
+//
+//     return (
+//         <form
+//             onSubmit= {
+//                 handleSubmit(submit)
+//             }
+//         >
+//             <div>
+//                 <label htmlFor="todo">Todo</label>
+//                 <Field name="todo" component="input" type="text" />
+//             </div>
+//             <button type="submit">Submit</button>
+//         </form>
+//
+//     )
+// }
 
 //フォーム送信後、フォーム内の値を空にする
 const afterSubmit = (result, dispatch) => dispatch(reset('contentForm'))

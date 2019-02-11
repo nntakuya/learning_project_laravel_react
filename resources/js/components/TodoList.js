@@ -22,7 +22,7 @@ class TodoList extends React.Component {
                     // console.log('test',todo);
                     onAddTodo(todo);
                 })
-                console.log('After this.props',this.props);
+                // console.log('After this.props',this.props);
             })
             .catch(error=>{
                 console.log('componentDidMount error',error);
@@ -30,11 +30,11 @@ class TodoList extends React.Component {
     }
 
     render(){
-        console.log('render',this.props.todos);
+        // console.log('render',this.props.todos);
         return (
             <ul>
                 {this.props.todos.map(todo=>(
-                    console.log('key',todo.todo_data.id),
+                    // console.log('key',todo.todo_data.id),
                     <Todo key={todo.todo_data.id} todos={todo}/>
                 ))}
             </ul>

@@ -76779,15 +76779,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Todo = function Todo(props) {
-  return console.log('Todo', props.todos.todo_data), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, props.todos.todo_data.title);
-}; // const Todo = (props) =>(
-//     console.log('Todo props', props.todos),
-//     props.todos.map((todo)=>{
-//         console.log('li', todo.todo_data.title);
-//         <li>{todo.todo_data.title}</li>
-//     })
-// )
-
+  return (// console.log('Todo',props.todos.todo_data),
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, props.todos.todo_data.title)
+  );
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (Todo);
 
@@ -76847,8 +76842,6 @@ function (_React$Component) {
   _createClass(TodoList, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this = this;
-
       var onAddTodo = this.props.onAddTodo;
       axios.get('/api/getTodos').then(function (res) {
         // console.log('res.data',res.data);
@@ -76856,8 +76849,7 @@ function (_React$Component) {
         res.data.map(function (todo) {
           // console.log('test',todo);
           onAddTodo(todo);
-        });
-        console.log('After this.props', _this.props);
+        }); // console.log('After this.props',this.props);
       }).catch(function (error) {
         console.log('componentDidMount error', error);
       });
@@ -76865,12 +76857,14 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log('render', this.props.todos);
+      // console.log('render',this.props.todos);
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.props.todos.map(function (todo) {
-        return console.log('key', todo.todo_data.id), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Todo__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          key: todo.todo_data.id,
-          todos: todo
-        });
+        return (// console.log('key',todo.todo_data.id),
+          react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Todo__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            key: todo.todo_data.id,
+            todos: todo
+          })
+        );
       }));
     }
   }]);
@@ -76919,25 +76913,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function submit(value, dispatch) {
+function submit(value, dispatch, sample) {
+  console.log('value', value);
+  console.log('dispatch', dispatch);
+  console.log('sample', sample);
   dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["addTodo"])(value));
 }
 
-function submitMyform(data) {
-  var _this$props = this.props,
-      createRecord = _this$props.createRecord,
-      reset = _this$props.reset;
-  return createRecord(data).then(function () {
-    reset();
-  });
-}
-
-console.log('AddTodo.js');
-
-var ContactForm = function ContactForm(props) {
-  var handleSubmit = props.handleSubmit,
-      reset = props.reset;
-  console.log('sample');
+var ContactForm = function ContactForm(_ref) {
+  var handleChange = _ref.handleChange,
+      handleSubmit = _ref.handleSubmit,
+      value = _ref.value,
+      reset = _ref.reset;
+  // const {handleSubmit, reset} = props;
+  console.log('handleSubmit', handleSubmit);
+  console.log('value', value);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: handleSubmit(submit)
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -76949,7 +76939,26 @@ var ContactForm = function ContactForm(props) {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit"
   }, "Submit"));
-}; //フォーム送信後、フォーム内の値を空にする
+}; // let ContactForm = props => {
+//     const {handleSubmit, reset} = props;
+//     console.log('handleSubmit',handleSubmit);
+//
+//     return (
+//         <form
+//             onSubmit= {
+//                 handleSubmit(submit)
+//             }
+//         >
+//             <div>
+//                 <label htmlFor="todo">Todo</label>
+//                 <Field name="todo" component="input" type="text" />
+//             </div>
+//             <button type="submit">Submit</button>
+//         </form>
+//
+//     )
+// }
+//フォーム送信後、フォーム内の値を空にする
 
 
 var afterSubmit = function afterSubmit(result, dispatch) {
