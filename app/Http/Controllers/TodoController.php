@@ -14,7 +14,7 @@ class TodoController extends Controller
     }
 
     public function create(Request $request){
-        logger($request);
+        // logger($request);
 
         $todo = new Todo;
         $todo->title = $request->title;

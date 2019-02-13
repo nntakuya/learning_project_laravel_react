@@ -16,13 +16,9 @@ class TodoList extends React.Component {
         axios
             .get('/api/getTodos')
             .then((res)=>{
-                // console.log('res.data',res.data);
-                // console.log('Before this.props',this.props);
                 res.data.map(todo=>{
-                    // console.log('test',todo);
                     onAddTodo(todo);
                 })
-                // console.log('After this.props',this.props);
             })
             .catch(error=>{
                 console.log('componentDidMount error',error);
@@ -30,7 +26,6 @@ class TodoList extends React.Component {
     }
 
     render(){
-        // console.log('render',this.props.todos);
         return (
             <ul>
                 {this.props.todos.map(todo=>(

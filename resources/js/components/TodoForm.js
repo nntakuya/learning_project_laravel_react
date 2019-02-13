@@ -43,7 +43,7 @@ function submit(value, dispatch){
             title: value.title
         })
         .then((res)=>{
-            console.log('TodoForm.js' res',res);
+            console.log('TodoForm.js',res);
             //追加したデータのidを取得し、TodoListの末尾に追加する処理が必要？
             //しかし、何もしなくてもTodoListのTodoコンポーネントが追加されている
             //おそらく、app.jsで<propvider>タグでstoreを囲んでいるため、自動で追加されている気がする

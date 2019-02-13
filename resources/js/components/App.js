@@ -8,22 +8,22 @@ class App extends React.Component {
         super();
     }
 
-    // render(){
-    //     return (
-    //         <div>
-    //             <AddTodo />
-    //         </div>
-    //     );
-    // }
-
     render(){
         return (
             <div>
-                <AddTodo />
                 <TodoList />
             </div>
         );
     }
+
+    // render(){
+    //     return (
+    //         <div>
+    //             <AddTodo />
+    //             <TodoList />
+    //         </div>
+    //     );
+    // }
 
 }
 
