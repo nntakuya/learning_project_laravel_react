@@ -81034,15 +81034,24 @@ if (!self.fetch) {
 /*!***************************************!*\
   !*** ./resources/js/actions/index.js ***!
   \***************************************/
-/*! exports provided: ADD_TODO, addTodo */
+/*! exports provided: TODO, ADD_TODO, readTodo, addTodo */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TODO", function() { return TODO; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_TODO", function() { return ADD_TODO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "readTodo", function() { return readTodo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addTodo", function() { return addTodo; });
+var TODO = 'TODO';
 var ADD_TODO = 'ADD_TODO'; //Action Creators
-//ここの引数のやり方を見直す必要がある
+
+function readTodo(index) {
+  return {
+    type: TODO,
+    index: index
+  };
+} //ここの引数のやり方を見直す必要がある
 
 function addTodo(todo_data) {
   return {
@@ -81071,13 +81080,13 @@ __webpack_require__.r(__webpack_exports__);
  // import  { put, takeEvery, all } from 'redux-saga/effects';
 
 function todo(sample) {
+  console.log('sample', sample);
   return isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1___default()('/api/getTodos').then(function (res) {
     return res.json();
   }).then(function (payload) {
-    payload;
-    console.log(payload);
+    return payload; // console.log('todo payload',payload);
   }).catch(function (error) {
-    error;
+    return error;
   });
 }
 
@@ -81370,7 +81379,13 @@ function (_React$Component) {
   _createClass(TodoList, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var onAddTodo = this.props.onAddTodo; // axios
+      var _this$props = this.props,
+          readTodo = _this$props.readTodo,
+          onAddTodo = _this$props.onAddTodo;
+      console.log('【Before】componentDidMount this.props', this.props); // readTodo();
+
+      console.log('【After】componentDidMount this.props', this.props); // onAddTodo();
+      // axios
       //     .get('/api/getTodos')
       //     .then((res)=>{
       //         res.data.map(todo=>{
@@ -81384,20 +81399,16 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.props.todos.map(function (todo) {
-        return console.log('key', todo.todo_data.id), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Todo__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          key: todo.todo_data.id,
-          todos: todo
-        });
-      }));
+      console.log('【After】render() this.props', this.props);
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null);
     }
   }]);
 
   return TodoList;
-}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component); //下記の"todos"キーの値として、componentDidMountでLaravel APIから取得したデータをセットする
+}(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
+
+//下記の"todos"キーの値として、componentDidMountでLaravel APIから取得したデータをセットする
 //引数のstateは、現在の状態を格納している変数
-
-
 var mapStateTodProps = function mapStateTodProps(state) {
   return {
     todos: state.todos
@@ -81408,6 +81419,9 @@ var mapStateTodProps = function mapStateTodProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
+    readTodo: function readTodo() {
+      return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_4__["addTodo"])());
+    },
     onAddTodo: function onAddTodo(todo) {
       return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_4__["addTodo"])(todo));
     }
@@ -81500,6 +81514,7 @@ __webpack_require__.r(__webpack_exports__);
 
  //reducersは、コンポーネントのどこかで変更があった場合にすべてのreducersが働く仕様になっている
 //なので、switch文でactionのtypeを引数に、分岐処理をする必要がある
+// console.log('reducers/index.js',todos);
 
 var todoApp = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   todos: _todo__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -81541,15 +81556,22 @@ var todos = function todos() {
 
   switch (action.type) {
     case _actions__WEBPACK_IMPORTED_MODULE_0__["ADD_TODO"]:
-      // console.log('Reducer state',state);
+      console.log('reducers ADD_TODO');
+      console.log(action.todo_data); // console.log('Reducer state',state);
       // console.log('Reducer action',action);
       //1. "...state" : 現在の状態のデータ
       //2. "{}" : これか状態に追加するデータ
       //'1'と"2"を配列で連結した上で、returnしている
       // console.log('...state',[...state,{todo_data:action.todo_data}]);
-      return [].concat(_toConsumableArray(state), [{
+
+      var test = [].concat(_toConsumableArray(state), [{
         todo_data: action.todo_data
       }]);
+      console.log('test', test);
+      return test;
+
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["TODO"]:
+      console.log('reducers TODO');
 
     default:
       return state;
@@ -81564,12 +81586,13 @@ var todos = function todos() {
 /*!*******************************!*\
   !*** ./resources/js/sagas.js ***!
   \*******************************/
-/*! exports provided: handleRequestUser, default */
+/*! exports provided: getTodos, createTodo, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handleRequestUser", function() { return handleRequestUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTodos", function() { return getTodos; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTodo", function() { return createTodo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return rootSaga; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
@@ -81582,8 +81605,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var _marked =
 /*#__PURE__*/
-_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(handleRequestUser),
+_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(getTodos),
     _marked2 =
+/*#__PURE__*/
+_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(createTodo),
+    _marked3 =
 /*#__PURE__*/
 _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(rootSaga);
 
@@ -81591,8 +81617,9 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(rootSaga)
 
 
 
-function handleRequestUser() {
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function handleRequestUser$(_context) {
+function getTodos() {
+  var todos, test;
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function getTodos$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -81600,29 +81627,98 @@ function handleRequestUser() {
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_3__["call"])(_api__WEBPACK_IMPORTED_MODULE_4__["todo"]);
 
         case 2:
+          todos = _context.sent;
+          // console.log('todos',todos);
+          todos.map(function (todo) {
+            Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_3__["put"])(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["addTodo"])(todos));
+          });
+          _context.next = 6;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_3__["put"])(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["addTodo"])(todos));
+
+        case 6:
+          test = _context.sent;
+          console.log('ss', test);
+
+        case 8:
         case "end":
           return _context.stop();
       }
     }
   }, _marked, this);
-} //下記のrootSaga()関数は、generator関数としての役割をもつ
-//generator関数とは、アプリの起動時に最初の一回だけ実行される関数のこと。
+}
+function createTodo() {
+  var action, todos, test, _ref, payload, error;
 
-function rootSaga() {
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function rootSaga$(_context2) {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function createTodo$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          console.log(Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_3__["fork"])(handleRequestUser));
+          if (false) {}
+
           _context2.next = 3;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_3__["fork"])(handleRequestUser);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_3__["take"])(_actions__WEBPACK_IMPORTED_MODULE_2__["ADD_TODO"]);
 
         case 3:
+          action = _context2.sent;
+          console.log(action);
+          _context2.next = 7;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_3__["call"])(_api__WEBPACK_IMPORTED_MODULE_4__["todo"], action);
+
+        case 7:
+          todos = _context2.sent;
+          console.log('todos', todos); // TODO: 下記のコードをdispatchする際に、todosではなく、todosの要素を個別でdispatchできるようにする
+
+          _context2.next = 11;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_3__["put"])(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["addTodo"])(todos));
+
+        case 11:
+          test = _context2.sent;
+          console.log('test', test); //dispatchする
+          // todos.map(todo=>{
+          //     console.log(todo);
+          //     yield put(addTodo(todo));
+          // });
+
+          _context2.next = 15;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_3__["call"])(_api__WEBPACK_IMPORTED_MODULE_4__["todo"]);
+
+        case 15:
+          _ref = _context2.sent;
+          payload = _ref.payload;
+          error = _ref.error;
+
+          if (payload && !error) {
+            console.log('handleRequestTodos success');
+          } else {
+            console.log('handleRequestTodos error');
+          }
+
+          _context2.next = 0;
+          break;
+
+        case 21:
         case "end":
           return _context2.stop();
       }
     }
   }, _marked2, this);
+} //下記のrootSaga()関数は、generator関数としての役割をもつ
+//generator関数とは、アプリの起動時に最初の一回だけ実行される関数のこと。
+
+function rootSaga() {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function rootSaga$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_3__["fork"])(getTodos);
+
+        case 2:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, _marked3, this);
 }
 
 /***/ }),
@@ -81649,8 +81745,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // console.log(rootSaga);
-// const store = createStore(
+ // const store = createStore(
 //     rootReducer,
 //     composeWithDevTools()
 // );
@@ -81670,8 +81765,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var initialState = {};
 var sagaMiddleware = Object(redux_saga__WEBPACK_IMPORTED_MODULE_4__["default"])();
-var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers__WEBPACK_IMPORTED_MODULE_1__["default"], initialState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_2__["composeWithDevTools"], sagaMiddleware, redux_logger__WEBPACK_IMPORTED_MODULE_3___default.a)); // sagaMiddleware.run();
-
+var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers__WEBPACK_IMPORTED_MODULE_1__["default"], initialState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(sagaMiddleware, redux_logger__WEBPACK_IMPORTED_MODULE_3___default.a), Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_2__["composeWithDevTools"])()));
 sagaMiddleware.run(_sagas__WEBPACK_IMPORTED_MODULE_5__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (store);
 
