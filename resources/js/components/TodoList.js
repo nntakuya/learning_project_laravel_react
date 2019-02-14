@@ -13,16 +13,16 @@ class TodoList extends React.Component {
     componentDidMount(){
         const {onAddTodo} = this.props;
 
-        axios
-            .get('/api/getTodos')
-            .then((res)=>{
-                res.data.map(todo=>{
-                    onAddTodo(todo);
-                })
-            })
-            .catch(error=>{
-                console.log('componentDidMount error',error);
-            })
+        // axios
+        //     .get('/api/getTodos')
+        //     .then((res)=>{
+        //         res.data.map(todo=>{
+        //             onAddTodo(todo);
+        //         })
+        //     })
+        //     .catch(error=>{
+        //         console.log('componentDidMount error',error);
+        //     })
     }
 
     render(){
