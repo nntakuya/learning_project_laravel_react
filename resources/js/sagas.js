@@ -9,9 +9,9 @@ export function* getTodos(){
 
     // console.log('todos',todos);
 
-    todos.map(todo=>{
-        put(addTodo(todos));
-    })
+    // todos.map(todo=>{
+    //     put(addTodo(todos));
+    // })
     const test = yield put(addTodo(todos));
     console.log('ss',test);
 

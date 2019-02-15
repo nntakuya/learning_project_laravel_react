@@ -81385,21 +81385,11 @@ function (_React$Component) {
       console.log('【Before】componentDidMount this.props', this.props); // readTodo();
 
       console.log('【After】componentDidMount this.props', this.props); // onAddTodo();
-      // axios
-      //     .get('/api/getTodos')
-      //     .then((res)=>{
-      //         res.data.map(todo=>{
-      //             onAddTodo(todo);
-      //         })
-      //     })
-      //     .catch(error=>{
-      //         console.log('componentDidMount error',error);
-      //     })
     }
   }, {
     key: "render",
     value: function render() {
-      console.log('【After】render() this.props', this.props);
+      console.log('【After】render() this.props', this.props.todos[0]);
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null);
     }
   }]);
@@ -81628,18 +81618,14 @@ function getTodos() {
 
         case 2:
           todos = _context.sent;
-          // console.log('todos',todos);
-          todos.map(function (todo) {
-            Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_3__["put"])(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["addTodo"])(todos));
-          });
-          _context.next = 6;
+          _context.next = 5;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_3__["put"])(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["addTodo"])(todos));
 
-        case 6:
+        case 5:
           test = _context.sent;
           console.log('ss', test);
 
-        case 8:
+        case 7:
         case "end":
           return _context.stop();
       }

@@ -17,25 +17,22 @@ class TodoList extends React.Component {
         console.log('【After】componentDidMount this.props',this.props);
         // onAddTodo();
 
-        // axios
-        //     .get('/api/getTodos')
-        //     .then((res)=>{
-        //         res.data.map(todo=>{
-        //             onAddTodo(todo);
-        //         })
-        //     })
-        //     .catch(error=>{
-        //         console.log('componentDidMount error',error);
-        //     })
     }
 
     render(){
-        console.log('【After】render() this.props',this.props);
-        return <ul></ul>;
+        console.log('【After】render() this.props',this.props.todos[0]);
+        return(
+            <ul>
+                {/* {this.props.todos[0].todo_data.map(todo=>(
+                    console.log(todo);
+                ))} */}
+            </ul>
+        )
     };
 
     // render(){
     //     return (
+    //         console.log('return',this.props.todos),
     //         <ul>
     //             {this.props.todos.map(todo=>(
     //                 console.log('key',todo.todo_data.id),
