@@ -11,9 +11,9 @@ class TodoList extends React.Component {
     }
 
     componentDidMount(){
-        const {readTodo,onAddTodo} = this.props;
+        const {readTodo,onAddTodo,fetchTodo} = this.props;
         console.log('【Before】componentDidMount this.props',this.props);
-        // readTodo();
+        fetchTodo('sample text');
         console.log('【After】componentDidMount this.props',this.props);
         // onAddTodo();
 
@@ -30,29 +30,24 @@ class TodoList extends React.Component {
         )
     };
 
-    // render(){
-    //     return (
-    //         console.log('return',this.props.todos),
-    //         <ul>
-    //             {this.props.todos.map(todo=>(
-    //                 console.log('key',todo.todo_data.id),
-    //                 <Todo key={todo.todo_data.id} todos={todo}/>
-    //             ))}
-    //         </ul>
-    //     );
-    // }
 }
 
 //下記の"todos"キーの値として、componentDidMountでLaravel APIから取得したデータをセットする
 //引数のstateは、現在の状態を格納している変数
-const mapStateTodProps = state => ({
+const mapStateTodProps = state => (
+    console.log('mapStateTodProps state',state.todos[0]),
+    console.log('mapStateTodProps state payload',state.todos[0].payload),
+    
+    {
     todos: state.todos
-})
+    }
+)
 
 //connectで結び付けられたComponentクラスのプロパティとしてセットされる
 //今回の場合だと、プロパティのonAddTodoに"(todo)=>dispatch(addTodo(todo))"としてセットされる
 const mapDispatchToProps = dispatch =>({
     readTodo: ()=>dispatch(addTodo()),
+    fetchTodo: (payload)=>dispatch({type:"GET_TODO_FETCH",payload}),
     onAddTodo: (todo)=>dispatch(addTodo(todo))
 })
 

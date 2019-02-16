@@ -53,5 +53,5 @@ export function* createTodo(){
 //下記のrootSaga()関数は、generator関数としての役割をもつ
 //generator関数とは、アプリの起動時に最初の一回だけ実行される関数のこと。
 export default function* rootSaga(){
-    yield fork(getTodos);
+    // yield fork(getTodos);
 }

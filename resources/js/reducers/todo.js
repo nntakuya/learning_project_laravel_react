@@ -33,6 +33,35 @@ const todos = (state=[],action)=>{
         case TODO:
             console.log('reducers TODO');
 
+        //下記からテストコード
+        case 'GET_TODO_PUT':
+            console.log('[reducer]GET_TODO_PUT',action.payload1);
+
+            return[
+                ...state,
+                {
+                    payload: action.payload1
+                }
+            ];
+
+            // return action.todos;
+
+        case 'TODOS_ADD':
+            const todo = action.todos;
+            return[
+                ...state,
+                todo
+            ];
+
+        case 'TODOS_EDIT':
+            return state.map(todo =>
+                Number(todo.id) === Number(action.todos.id) ?
+                    {...action.todo} : todos);
+
+        case 'TODOS_DELETE':
+            return state.filter(todo =>
+                Number(todo.id) !== Number(action.todo.id));
+
         default:
             return state
     }

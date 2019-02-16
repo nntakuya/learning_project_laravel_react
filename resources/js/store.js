@@ -3,7 +3,8 @@ import rootReducer from './reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
 import createSagamiddlerware from 'redux-saga';
-import rootSaga from './sagas'
+// import rootSaga from './sagas';
+import rootSaga from './sagas/main';
 
 
 // const store = createStore(
