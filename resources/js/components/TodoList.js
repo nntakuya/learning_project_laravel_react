@@ -20,12 +20,15 @@ class TodoList extends React.Component {
     }
 
     render(){
-        console.log('【After】render() this.props',this.props.todos[0]);
         return(
             <ul>
-                {/* {this.props.todos[0].todo_data.map(todo=>(
-                    console.log(todo);
-                ))} */}
+                {this.props.todos.map(res=>{
+                    {/* console.log('todos.map',res); */}
+                    return <Todo
+                                key={res.id}
+                                title={res.title}
+                            />
+                })}
             </ul>
         )
     };
@@ -34,14 +37,9 @@ class TodoList extends React.Component {
 
 //下記の"todos"キーの値として、componentDidMountでLaravel APIから取得したデータをセットする
 //引数のstateは、現在の状態を格納している変数
-const mapStateTodProps = state => (
-    console.log('mapStateTodProps state',state.todos[0]),
-    console.log('mapStateTodProps state payload',state.todos[0].payload),
-    
-    {
+const mapStateTodProps = state => ({
     todos: state.todos
-    }
-)
+})
 
 //connectで結び付けられたComponentクラスのプロパティとしてセットされる
 //今回の場合だと、プロパティのonAddTodoに"(todo)=>dispatch(addTodo(todo))"としてセットされる

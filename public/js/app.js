@@ -77642,7 +77642,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************************************!*\
   !*** ./node_modules/redux-saga/dist/redux-saga-core-npm-proxy.esm.js ***!
   \***********************************************************************/
-/*! exports provided: default, CANCEL, SAGA_LOCATION, buffers, detach, runSaga, END, isEnd, eventChannel, channel, multicastChannel, stdChannel */
+/*! exports provided: CANCEL, SAGA_LOCATION, buffers, detach, runSaga, END, isEnd, eventChannel, channel, multicastChannel, stdChannel, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -81096,8 +81096,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 //                 return error
 //             });
 // }
-
-var url = "/api/getTodos";
+//TODO
+//fetch関数からaxios関数への変更
+// const url = "/api/getTodos";
 
 var TodoAPI =
 /*#__PURE__*/
@@ -81108,11 +81109,11 @@ function () {
 
   _createClass(TodoAPI, null, [{
     key: "get",
+    // const url = "/api/getTodos";
     value: function get() {
       return isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1___default()('/api/getTodos').then(function (res) {
         return res.json();
       }).then(function (payload) {
-        console.log('todo payload', payload);
         return payload;
       }).catch(function (error) {
         return error;
@@ -81292,8 +81293,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Todo = function Todo(props) {
-  return (// console.log('Todo',props.todos.todo_data),
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, props.todos.todo_data.title)
+  return (// console.log('Todo',props),
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, props.title)
   );
 };
 
@@ -81434,8 +81435,15 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log('【After】render() this.props', this.props.todos[0]);
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null);
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.props.todos.map(function (res) {
+        {
+          /* console.log('todos.map',res); */
+        }
+        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Todo__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          key: res.id,
+          title: res.title
+        });
+      }));
     }
   }]);
 
@@ -81445,7 +81453,7 @@ function (_React$Component) {
 
 
 var mapStateTodProps = function mapStateTodProps(state) {
-  return console.log('mapStateTodProps state', state.todos[0]), console.log('mapStateTodProps state payload', state.todos[0].payload), {
+  return {
     todos: state.todos
   };
 }; //connectで結び付けられたComponentクラスのプロパティとしてセットされる
@@ -81620,10 +81628,10 @@ var todos = function todos() {
     //下記からテストコード
 
     case 'GET_TODO_PUT':
-      console.log('[reducer]GET_TODO_PUT', action.payload1);
-      return [].concat(_toConsumableArray(state), [{
-        payload: action.payload1
-      }]);
+      console.log('【reducer】GET_TODO_PUT'); // action.response.map(res=>console.log(res))
+      // console.log(action.response);
+
+      return action.response;
     // return action.todos;
 
     case 'TODOS_ADD':
@@ -81677,7 +81685,7 @@ function rootSaga() {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])('GET_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todosFetchList"]);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('GET_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todosFetchList"]);
 
         case 2:
         case "end":
@@ -81703,6 +81711,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/dist/redux-saga-effects-npm-proxy.esm.js");
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../api */ "./resources/js/api.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 
 
 var _marked =
@@ -81711,33 +81721,46 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todosFetc
 
 
 
+
+
+function get() {
+  axios__WEBPACK_IMPORTED_MODULE_3___default()({
+    method: 'get',
+    url: '/api/getTodos'
+  }).then(function (res) {
+    console.log('書き方', res);
+    return res;
+  }); // axios
+  //     .get('/api/getTodos')
+  //     .then(res=>{
+  //         console.log('axios get res',res);
+  //         return res;
+  //     })
+  //     .catch(error=>{
+  //         console.log('componentDidMount error',error);
+  //     })
+}
+
 function todosFetchList(action) {
-  var response, payload, payload1;
+  var response;
   return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function todosFetchList$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          console.log('【/sagas】todoFetchList');
+          console.log('【/sagas】todoFetchList'); // const response = yield call(get);
+
           _context.next = 3;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].get);
 
         case 3:
           response = _context.sent;
-          console.log('response', response);
-          response.map(function (res) {
-            console.log('detail', res); // yield put({type:'GET_TODO_PUT',res});
-          });
-          console.log('detail', response);
-          payload = response ? response : {};
-          payload1 = payload[0];
-          console.log('payload', payload1);
-          _context.next = 12;
+          _context.next = 6;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
             type: 'GET_TODO_PUT',
-            payload1: payload1
+            response: response
           });
 
-        case 12:
+        case 6:
         case "end":
           return _context.stop();
       }

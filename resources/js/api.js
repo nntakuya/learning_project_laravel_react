@@ -16,20 +16,28 @@ import fetch from 'isomorphic-fetch';
 // }
 
 
-const url = "/api/getTodos";
+
+//TODO
+//fetch関数からaxios関数への変更
+
+
+
+// const url = "/api/getTodos";
 
 export default class TodoAPI {
+    // const url = "/api/getTodos";
+
     static get(){
         return fetch('/api/getTodos')
             .then(res =>res.json())
             .then(payload=>{
-                console.log('todo payload',payload);
                 return payload;
             })
             .catch(error=>{
                 return error
             });
     }
+
 
     static edit(payload){
 

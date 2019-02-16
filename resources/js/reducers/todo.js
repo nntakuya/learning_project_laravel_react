@@ -35,15 +35,11 @@ const todos = (state=[],action)=>{
 
         //下記からテストコード
         case 'GET_TODO_PUT':
-            console.log('[reducer]GET_TODO_PUT',action.payload1);
+            console.log('【reducer】GET_TODO_PUT');
+            // action.response.map(res=>console.log(res))
+            // console.log(action.response);
 
-            return[
-                ...state,
-                {
-                    payload: action.payload1
-                }
-            ];
-
+            return action.response
             // return action.todos;
 
         case 'TODOS_ADD':

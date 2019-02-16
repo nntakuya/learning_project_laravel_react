@@ -6,6 +6,6 @@ import {
      todosDelete} from './todo'
 
 export default function* rootSaga(){
-     yield takeLatest('GET_TODO_FETCH',todosFetchList);
+     yield takeEvery('GET_TODO_FETCH',todosFetchList);
      // yield fork(todosFetchList);
 }
