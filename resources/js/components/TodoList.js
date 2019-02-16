@@ -12,11 +12,7 @@ class TodoList extends React.Component {
 
     componentDidMount(){
         const {readTodo,onAddTodo,fetchTodo} = this.props;
-        console.log('【Before】componentDidMount this.props',this.props);
         fetchTodo('sample text');
-        console.log('【After】componentDidMount this.props',this.props);
-        // onAddTodo();
-
     }
 
     render(){
@@ -48,6 +44,5 @@ const mapDispatchToProps = dispatch =>({
     fetchTodo: (payload)=>dispatch({type:"GET_TODO_FETCH",payload}),
     onAddTodo: (todo)=>dispatch(addTodo(todo))
 })
-
 
 export default connect(mapStateTodProps,mapDispatchToProps)(TodoList);
