@@ -79138,6 +79138,84 @@ function addTodo(todo_data) {
 
 /***/ }),
 
+<<<<<<< HEAD
+=======
+/***/ "./resources/js/api.js":
+/*!*****************************!*\
+  !*** ./resources/js/api.js ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TodoAPI; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! isomorphic-fetch */ "./node_modules/isomorphic-fetch/fetch-npm-browserify.js");
+/* harmony import */ var isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+ // import  { put, takeEvery, all } from 'redux-saga/effects';
+// export function todo(sample){
+//     console.log('sample',sample);
+//     return fetch('/api/getTodos')
+//             .then(res =>res.json())
+//             .then(payload=>{
+//                 return payload;
+//                 // console.log('todo payload',payload);
+//             })
+//             .catch(error=>{
+//                 return error
+//             });
+// }
+//TODO
+//fetch関数からaxios関数への変更
+// const url = "/api/getTodos";
+
+var TodoAPI =
+/*#__PURE__*/
+function () {
+  function TodoAPI() {
+    _classCallCheck(this, TodoAPI);
+  }
+
+  _createClass(TodoAPI, null, [{
+    key: "get",
+    // const url = "/api/getTodos";
+    value: function get() {
+      return isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1___default()('/api/getTodos').then(function (res) {
+        return res.json();
+      }).then(function (payload) {
+        return payload;
+      }).catch(function (error) {
+        return error;
+      });
+    }
+  }, {
+    key: "edit",
+    value: function edit(payload) {}
+  }, {
+    key: "add",
+    value: function add(payload) {}
+  }, {
+    key: "delete",
+    value: function _delete(payload) {}
+  }]);
+
+  return TodoAPI;
+}();
+
+
+
+/***/ }),
+
+>>>>>>> test/one
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -79663,9 +79741,131 @@ var todos = function todos() {
   !*** ./resources/js/sagas/main.js ***!
   \************************************/
 /*! exports provided: default */
+<<<<<<< HEAD
 /***/ (function(module, exports) {
 
 throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/var/www/resources/js/sagas/main.js'");
+=======
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return rootSaga; });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/dist/redux-saga-effects-npm-proxy.esm.js");
+/* harmony import */ var _todo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./todo */ "./resources/js/sagas/todo.js");
+
+
+var _marked =
+/*#__PURE__*/
+_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(rootSaga);
+
+
+
+function rootSaga() {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function rootSaga$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('GET_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todosFetchList"]);
+
+        case 2:
+        case "end":
+          return _context.stop();
+      }
+    }
+  }, _marked, this);
+}
+
+/***/ }),
+
+/***/ "./resources/js/sagas/todo.js":
+/*!************************************!*\
+  !*** ./resources/js/sagas/todo.js ***!
+  \************************************/
+/*! exports provided: todosFetchList */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todosFetchList", function() { return todosFetchList; });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/dist/redux-saga-effects-npm-proxy.esm.js");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../api */ "./resources/js/api.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+
+
+var _marked =
+/*#__PURE__*/
+_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todosFetchList);
+
+
+
+
+
+function get() {
+  axios__WEBPACK_IMPORTED_MODULE_3___default()({
+    method: 'get',
+    url: '/api/getTodos'
+  }).then(function (res) {
+    console.log('書き方', res);
+    return res;
+  }); // axios
+  //     .get('/api/getTodos')
+  //     .then(res=>{
+  //         console.log('axios get res',res);
+  //         return res;
+  //     })
+  //     .catch(error=>{
+  //         console.log('componentDidMount error',error);
+  //     })
+}
+
+function todosFetchList(action) {
+  var response;
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function todosFetchList$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          console.log('【/sagas】todoFetchList'); // const response = yield call(get);
+
+          _context.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].get);
+
+        case 3:
+          response = _context.sent;
+          _context.next = 6;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: 'GET_TODO_PUT',
+            response: response
+          });
+
+        case 6:
+        case "end":
+          return _context.stop();
+      }
+    }
+  }, _marked, this);
+} // export function* todosEdit(action){
+//     yield call(TodoAPI.edit,action.todo);
+//     yield put({type:'TODO_SAVE',todo:action.todo});
+//     action.callbackSuccess();
+// }
+// export function* todosAdd(action){
+//     yield call(TodoAPI.add,action.todo);
+//     yield put({type:'TODO_ADD',todo:action.todo});
+//     action.callbackSuccess();
+// }
+// export function* todosDelete(action){
+//     yield call(TodoAPI.delete,action.todo);
+//     yield put({type: 'TODO_DELETE',todo:action.todo});
+//     action.callbackSuccess();
+// }
+>>>>>>> test/one
 
 /***/ }),
 
