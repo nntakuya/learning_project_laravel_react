@@ -46,6 +46,18 @@ const todos = (state=[],action)=>{
                 todo
             ];
 
+        // case 'SUBMIT_FORM':
+        //     console.log('【Reducers SUBMIT_FORM】',action);
+
+        //     return action;
+
+
+
+
+
+
+
+
         case 'TODOS_EDIT':
             return state.map(todo =>
                 Number(todo.id) === Number(action.todos.id) ?

@@ -81034,17 +81034,20 @@ if (!self.fetch) {
 /*!***************************************!*\
   !*** ./resources/js/actions/index.js ***!
   \***************************************/
-/*! exports provided: TODO, ADD_TODO, readTodo, addTodo */
+/*! exports provided: TODO, ADD_TODO, SUBMIT_FORM, readTodo, addTodo, submitForm */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TODO", function() { return TODO; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_TODO", function() { return ADD_TODO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SUBMIT_FORM", function() { return SUBMIT_FORM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "readTodo", function() { return readTodo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addTodo", function() { return addTodo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "submitForm", function() { return submitForm; });
 var TODO = 'TODO';
-var ADD_TODO = 'ADD_TODO'; //Action Creators
+var ADD_TODO = 'ADD_TODO';
+var SUBMIT_FORM = 'SUBMIT_FORM'; //Action Creators
 
 function readTodo(index) {
   return {
@@ -81057,6 +81060,15 @@ function addTodo(todo_data) {
   return {
     type: ADD_TODO,
     todo_data: todo_data
+  };
+}
+function submitForm(params) {
+  console.log('【Action index submitForm】', params);
+  return {
+    type: SUBMIT_FORM,
+    payload: {
+      params: params
+    }
   };
 }
 
@@ -81120,11 +81132,39 @@ function () {
       });
     }
   }, {
+    key: "add",
+    value: function add(payload) {
+      console.log('【api.js add payload】', payload);
+      var data = {
+        name: 'takuya'
+      }; //(TODO)下記の処理にcsrf対策を施す必要がある。
+
+      return isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1___default()('/api/createTodo', {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json, text-plain, */*",
+          "X-Requested-With": "XMLHttpRequest" // "X-CSRF-TOKEN": token
+
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          title: payload.title
+        })
+      }).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        console.log('【api.js add payload success】', res);
+        return {
+          data: res.title
+        };
+      }).catch(function (error) {
+        console.log('【api.js add payload】', error);
+        return error;
+      });
+    }
+  }, {
     key: "edit",
     value: function edit(payload) {}
-  }, {
-    key: "add",
-    value: function add(payload) {}
   }, {
     key: "delete",
     value: function _delete(payload) {}
@@ -81257,16 +81297,8 @@ function (_React$Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TodoList__WEBPACK_IMPORTED_MODULE_2__["default"], null));
-    } // render(){
-    //     return (
-    //         <div>
-    //             <AddTodo />
-    //             <TodoList />
-    //         </div>
-    //     );
-    // }
-
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_AddTodo__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TodoList__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+    }
   }]);
 
   return App;
@@ -81293,9 +81325,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Todo = function Todo(props) {
-  return (// console.log('Todo',props),
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, props.title)
-  );
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, props.title);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Todo);
@@ -81323,8 +81353,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var TodoForm = function TodoForm(props) {
   //データ確認
-  // console.log('handleSubmit',handleSubmit),
-  // console.log('handleChange',handleChange),
   console.log('TodoForm props', props.value);
   var handleSubmit = props.handleSubmit;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
@@ -81349,18 +81377,24 @@ var afterSubmit = function afterSubmit(result, dispatch) {
 
 
 function submit(value, dispatch) {
-  console.log('TodoForm submit value', value);
-  dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["addTodo"])(value)); //バックグラウンドにデータを送信
+  console.log('TodoForm submit dispatch', dispatch);
+  console.log('TodoForm submit value', value); // dispatch({type:"ADD_TODO_FETCH",payload:'sample text'});
 
-  axios.post('/api/createTodo', {
-    title: value.title
-  }).then(function (res) {
-    console.log('TodoForm.js', res); //追加したデータのidを取得し、TodoListの末尾に追加する処理が必要？
-    //しかし、何もしなくてもTodoListのTodoコンポーネントが追加されている
-    //おそらく、app.jsで<propvider>タグでstoreを囲んでいるため、自動で追加されている気がする
-  }).catch(function (error) {
-    console.log('error TodoForm.js', error);
-  });
+  dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["submitForm"])(value)); // dispatch(addTodo(value));
+  //バックグラウンドにデータを送信
+  // axios
+  //     .post('/api/createTodo',{
+  //         title: value.title
+  //     })
+  //     .then((res)=>{
+  //         console.log('TodoForm.js',res);
+  //         //追加したデータのidを取得し、TodoListの末尾に追加する処理が必要？
+  //         //しかし、何もしなくてもTodoListのTodoコンポーネントが追加されている
+  //         //おそらく、app.jsで<propvider>タグでstoreを囲んでいるため、自動で追加されている気がする
+  //     })
+  //     .catch(error=>{
+  //         console.log('error TodoForm.js',error);
+  //     })
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux_form__WEBPACK_IMPORTED_MODULE_3__["reduxForm"])({
@@ -81501,7 +81535,7 @@ __webpack_require__.r(__webpack_exports__);
 var ContentForm = function ContentForm(_ref) {
   var handleInsertSubmit = _ref.handleInsertSubmit,
       values = _ref.values;
-  return console.log('AddTodo.js handleInsertSubmit', handleInsertSubmit), console.log('AddTodo.js values', values), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_TodoForm__WEBPACK_IMPORTED_MODULE_2__["default"], null);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_TodoForm__WEBPACK_IMPORTED_MODULE_2__["default"], null);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(null, null)(ContentForm));
@@ -81528,16 +81562,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // import { createStore, applyMiddleware } from 'redux';
-// import rootReducer from './reducers';
-// import { composeWithDevTools } from 'redux-devtools-extension';
-// import logger from 'redux-logger';
-// import createSagamiddlerware from 'redux-saga';
-// import rootSaga from './sagas'
-// const store = createStore(
-//     rootReducer,
-//     composeWithDevTools()
-// );
 
 Object(react_dom__WEBPACK_IMPORTED_MODULE_1__["render"])(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_2__["Provider"], {
   store: _store__WEBPACK_IMPORTED_MODULE_4__["default"]
@@ -81632,6 +81656,9 @@ var todos = function todos() {
     case 'TODOS_ADD':
       var todo = action.todos;
       return [].concat(_toConsumableArray(state), [todo]);
+    // case 'SUBMIT_FORM':
+    //     console.log('【Reducers SUBMIT_FORM】',action);
+    //     return action;
 
     case 'TODOS_EDIT':
       return state.map(function (todo) {
@@ -81683,6 +81710,14 @@ function rootSaga() {
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('GET_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todosFetchList"]);
 
         case 2:
+          _context.next = 4;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('ADD_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todosAdd"]);
+
+        case 4:
+          _context.next = 6;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_todo__WEBPACK_IMPORTED_MODULE_2__["handleSubmitForm"]);
+
+        case 6:
         case "end":
           return _context.stop();
       }
@@ -81696,21 +81731,33 @@ function rootSaga() {
 /*!************************************!*\
   !*** ./resources/js/sagas/todo.js ***!
   \************************************/
-/*! exports provided: todosFetchList */
+/*! exports provided: todosFetchList, todosAdd, handleSubmitForm */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todosFetchList", function() { return todosFetchList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todosAdd", function() { return todosAdd; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handleSubmitForm", function() { return handleSubmitForm; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-saga/effects */ "./node_modules/redux-saga/dist/redux-saga-effects-npm-proxy.esm.js");
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../api */ "./resources/js/api.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions */ "./resources/js/actions/index.js");
+/* harmony import */ var redux_form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux-form */ "./node_modules/redux-form/es/index.js");
 
 
 var _marked =
 /*#__PURE__*/
-_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todosFetchList);
+_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todosFetchList),
+    _marked2 =
+/*#__PURE__*/
+_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todosAdd),
+    _marked3 =
+/*#__PURE__*/
+_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(handleSubmitForm);
+
+
 
 
 
@@ -81725,13 +81772,15 @@ function todosFetchList(action) {
 
         case 2:
           response = _context.sent;
-          _context.next = 5;
+          console.log('【てすとだよーん】', response); // const payload = response ? response : {};
+
+          _context.next = 6;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
             type: 'GET_TODO_PUT',
             response: response
           });
 
-        case 5:
+        case 6:
         case "end":
           return _context.stop();
       }
@@ -81742,13 +81791,90 @@ function todosFetchList(action) {
 //     yield put({type:'TODO_SAVE',todo:action.todo});
 //     action.callbackSuccess();
 // }
-// export function* todosAdd(action){
-//     yield call(TodoAPI.add,action.todo);
-//     yield put({type:'TODO_ADD',todo:action.todo});
-//     action.callbackSuccess();
-// }
-// export function* todosDelete(action){
-//     yield call(TodoAPI.delete,action.todo);
+
+function todosAdd(action) {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function todosAdd$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          console.log('【sagaFunction todosAdd】', action); // yield call(TodoAPI.add,action.todo);
+          // yield put({type:'TODO_ADD',todo:action.todo});
+          // action.callbackSuccess();
+
+        case 1:
+        case "end":
+          return _context2.stop();
+      }
+    }
+  }, _marked2, this);
+}
+function handleSubmitForm() {
+  var action, params, _ref, data, error;
+
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function handleSubmitForm$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          console.log('【handleSubmitForm】');
+
+        case 1:
+          if (false) {}
+
+          _context3.next = 4;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["take"])(_actions__WEBPACK_IMPORTED_MODULE_3__["SUBMIT_FORM"]);
+
+        case 4:
+          action = _context3.sent;
+          console.log('【handleSubmitForm action】', action);
+          params = action.payload.params;
+          console.log('【handleSubmitForm params】', params);
+          _context3.next = 10;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["startSubmit"])('contentForm'));
+
+        case 10:
+          _context3.next = 12;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].add, params);
+
+        case 12:
+          _ref = _context3.sent;
+          data = _ref.data;
+          error = _ref.error;
+          console.log('【saga/todo.js reutrn data】', data);
+
+          if (!(data && !error)) {
+            _context3.next = 24;
+            break;
+          }
+
+          console.log('success');
+          _context3.next = 20;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm'));
+
+        case 20:
+          _context3.next = 22;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(todosFetchList);
+
+        case 22:
+          _context3.next = 27;
+          break;
+
+        case 24:
+          console.log('fail');
+          _context3.next = 27;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm'));
+
+        case 27:
+          _context3.next = 1;
+          break;
+
+        case 29:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, _marked3, this);
+} // export function* todosDelete(action){
+//     yield call(TodoAPI.deletｋ,action.todo);
 //     yield put({type: 'TODO_DELETE',todo:action.todo});
 //     action.callbackSuccess();
 // }

@@ -11,20 +11,11 @@ class App extends React.Component {
     render(){
         return (
             <div>
+                <AddTodo />
                 <TodoList />
             </div>
         );
     }
-
-    // render(){
-    //     return (
-    //         <div>
-    //             <AddTodo />
-    //             <TodoList />
-    //         </div>
-    //     );
-    // }
-
 }
 
 export default App;

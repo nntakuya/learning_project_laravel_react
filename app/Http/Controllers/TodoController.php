@@ -14,14 +14,16 @@ class TodoController extends Controller
     }
 
     public function create(Request $request){
-        // logger($request);
+        logger('【TodoController create】');
+        // logger($request->title);
 
         $todo = new Todo;
         $todo->title = $request->title;
         $todo->save();
 
-        $todos = Todo::all();
-        return $todos;
+        return response()->json([
+            'title'=>$request->title
+        ]);
     }
 
 

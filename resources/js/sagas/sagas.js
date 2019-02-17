@@ -1,7 +1,7 @@
 import React from 'react';
-import {TODO, readTodo,ADD_TODO,addTodo, } from './actions';
+import {TODO, readTodo,ADD_TODO,addTodo, } from '../actions';
 import {fork,put, takeEvery, all,call,take} from 'redux-saga/effects';
-import {todo} from './api';
+import {todo} from '../api';
 
 
 export function* getTodos(){
