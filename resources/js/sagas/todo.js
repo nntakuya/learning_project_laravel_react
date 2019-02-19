@@ -6,7 +6,6 @@ import {startSubmit, stopSubmit, reset} from 'redux-form';
 
 export function* todosFetchList(action){
     const response = yield call(TodoAPI.get);
-    // console.log('【てすとだよーん】',response);
 
     // const payload = response ? response : {};
     yield put({type:'GET_TODO_PUT',response});
@@ -14,8 +13,7 @@ export function* todosFetchList(action){
 
 export function* todoEdit(payload){
     console.log('/sagas.js/todo.js',payload);
-    // console.log('/sagas.js/todo.js',title);
-    // yield call(TodoAPI.edit,action.todo);
+    yield call(TodoAPI.edit,payload);
     // yield put({type:'TODO_SAVE',todo:action.todo});
     // action.callbackSuccess();
 }

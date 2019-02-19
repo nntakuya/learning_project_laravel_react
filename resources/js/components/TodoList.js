@@ -58,7 +58,7 @@ const mapDispatchToProps = dispatch =>({
     readTodo: ()=>dispatch(addTodo()),
     fetchTodo: (payload)=>dispatch({type:"GET_TODO_FETCH",payload}),
     onAddTodo: (todo)=>dispatch(addTodo(todo)),
-    editTodo:(id,todo)=>dispatch({type:"EDIT_TODO_FETCH",id:id,todo:todo}),
+    editTodo:(id,title,new_title)=>dispatch({type:"EDIT_TODO_FETCH",id:id,title:title,new_title:new_title}),
 })
 
 export default connect(mapStateTodProps,mapDispatchToProps)(TodoList);

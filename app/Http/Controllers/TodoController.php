@@ -26,6 +26,10 @@ class TodoController extends Controller
         ]);
     }
 
+    public function edit(Request $request){
+        logger($request);
+    }
+
 
     // public function addTodo(Request $request){
     //

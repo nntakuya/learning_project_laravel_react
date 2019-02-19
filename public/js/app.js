@@ -81119,10 +81119,7 @@ function () {
   }, {
     key: "add",
     value: function add(payload) {
-      console.log('【api.js add payload】', payload);
-      var data = {
-        name: 'takuya'
-      }; //(TODO)下記の処理にcsrf対策を施す必要がある。
+      console.log('【api.js add payload】', payload); //(TODO)下記の処理にcsrf対策を施す必要がある。
 
       return isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1___default()('/api/createTodo', {
         headers: {
@@ -81151,6 +81148,17 @@ function () {
     key: "edit",
     value: function edit(payload) {
       console.log('【TodoAPI edit】', payload);
+      return isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1___default()('/api/editTodo', {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json, text-plain, */*",
+          'X-Requested-With': "XMLHttpRequest"
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          title: payload
+        })
+      });
     }
   }, {
     key: "delete",
@@ -81340,7 +81348,17 @@ function (_React$Component) {
     _classCallCheck(this, Todo);
 
     return _possibleConstructorReturn(this, _getPrototypeOf(Todo).call(this)); // console.log('【Todo Component】',props);
-  }
+    // this.state={
+    //     new_tilte:''
+    // }
+    // this.handleNewTodoTitile = this.handleNewTodoTitile.bind(this);
+    // console.log('Todo',this);
+  } // handleNewTodoTitile(new_tilte){
+  //     console.log('【new_tilte】',new_tilte);
+  //     this.setState({new_tilte});
+  //     console.log(this);
+  // }
+
 
   _createClass(Todo, [{
     key: "render",
@@ -81349,12 +81367,23 @@ function (_React$Component) {
           id = _this$props.id,
           title = _this$props.title,
           onEditTodo = _this$props.onEditTodo;
-      console.log('tes', id);
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, title, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: function onClick(e) {
-          return onEditTodo(id, title);
+      var new_title;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: function onSubmit(e) {
+          e.preventDefault();
         }
-      }, "\u7DE8\u96C6"));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        name: "new_tilte",
+        defaultValue: title,
+        onChange: function onChange(e) {
+          return new_title = e.target.value;
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick(e) {
+          return onEditTodo(id, title, new_title);
+        }
+      }, "\u7DE8\u96C6")));
     }
   }]);
 
@@ -81537,11 +81566,12 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     onAddTodo: function onAddTodo(todo) {
       return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_4__["addTodo"])(todo));
     },
-    editTodo: function editTodo(id, todo) {
+    editTodo: function editTodo(id, title, new_title) {
       return dispatch({
         type: "EDIT_TODO_FETCH",
         id: id,
-        todo: todo
+        title: title,
+        new_title: new_title
       });
     }
   };
@@ -81840,12 +81870,11 @@ function todoEdit(payload) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          console.log('/sagas.js/todo.js', payload); // console.log('/sagas.js/todo.js',title);
-          // yield call(TodoAPI.edit,action.todo);
-          // yield put({type:'TODO_SAVE',todo:action.todo});
-          // action.callbackSuccess();
+          console.log('/sagas.js/todo.js', payload);
+          _context2.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].edit, payload);
 
-        case 1:
+        case 3:
         case "end":
           return _context2.stop();
       }
