@@ -12,16 +12,18 @@ export function* todosFetchList(action){
     yield put({type:'GET_TODO_PUT',response});
 }
 
-// export function* todosEdit(action){
-//     yield call(TodoAPI.edit,action.todo);
-//     yield put({type:'TODO_SAVE',todo:action.todo});
-//     action.callbackSuccess();
-// }
+export function* todoEdit(payload){
+    console.log('/sagas.js/todo.js',payload);
+    // console.log('/sagas.js/todo.js',title);
+    // yield call(TodoAPI.edit,action.todo);
+    // yield put({type:'TODO_SAVE',todo:action.todo});
+    // action.callbackSuccess();
+}
 
 export function* todosAdd(action){
     console.log('【sagaFunction todosAdd】',action);
 
-    // yield call(TodoAPI.add,action.todo);
+    yield call(TodoAPI.add,action.todo);
     // yield put({type:'TODO_ADD',todo:action.todo});
     // action.callbackSuccess();
 }
@@ -30,10 +32,7 @@ export function* handleSubmitForm(){
     console.log('【handleSubmitForm】');
     while (true) {
         const action = yield take(SUBMIT_FORM);
-        // console.log('【handleSubmitForm action】',action);
-
         const {params} = action.payload;
-        // console.log('【handleSubmitForm params】',params);
 
         yield put(startSubmit('contentForm'));
 

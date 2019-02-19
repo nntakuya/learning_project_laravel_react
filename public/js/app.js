@@ -81095,22 +81095,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 
- // import  { put, takeEvery, all } from 'redux-saga/effects';
-// export function todo(sample){
-//     console.log('sample',sample);
-//     return fetch('/api/getTodos')
-//             .then(res =>res.json())
-//             .then(payload=>{
-//                 return payload;
-//                 // console.log('todo payload',payload);
-//             })
-//             .catch(error=>{
-//                 return error
-//             });
-// }
-//TODO
-//fetch関数からaxios関数への変更
-// const url = "/api/getTodos";
+
 
 var TodoAPI =
 /*#__PURE__*/
@@ -81164,7 +81149,9 @@ function () {
     }
   }, {
     key: "edit",
-    value: function edit(payload) {}
+    value: function edit(payload) {
+      console.log('【TodoAPI edit】', payload);
+    }
   }, {
     key: "delete",
     value: function _delete(payload) {}
@@ -81321,12 +81308,58 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 
+ // const Todo = (props) =>(
+//     <li>{props.title}</li>
+// )
 
-var Todo = function Todo(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, props.title);
-};
+var Todo =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(Todo, _React$Component);
+
+  function Todo(props) {
+    _classCallCheck(this, Todo);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Todo).call(this)); // console.log('【Todo Component】',props);
+  }
+
+  _createClass(Todo, [{
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          id = _this$props.id,
+          title = _this$props.title,
+          onEditTodo = _this$props.onEditTodo;
+      console.log('tes', id);
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, title, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick(e) {
+          return onEditTodo(id, title);
+        }
+      }, "\u7DE8\u96C6"));
+    }
+  }]);
+
+  return Todo;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (Todo);
 
@@ -81446,19 +81479,24 @@ function (_React$Component) {
       var _this$props = this.props,
           readTodo = _this$props.readTodo,
           onAddTodo = _this$props.onAddTodo,
-          fetchTodo = _this$props.fetchTodo;
-      fetchTodo('sample text');
+          fetchTodo = _this$props.fetchTodo,
+          editTodo = _this$props.editTodo;
+      fetchTodo('sample text'); // editTodo('test text');
+
+      console.log('TodoList', this.props);
     }
   }, {
     key: "render",
     value: function render() {
+      var editTodo = this.props.editTodo; // console.log('render',editTodo);
+
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.props.todos.map(function (res) {
-        {
-          /* console.log('todos.map',res); */
-        }
+        console.log('todos.map', res);
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Todo__WEBPACK_IMPORTED_MODULE_3__["default"], {
           key: res.id,
-          title: res.title
+          id: res.id,
+          title: res.title,
+          onEditTodo: editTodo
         });
       }));
     }
@@ -81475,6 +81513,14 @@ var mapStateTodProps = function mapStateTodProps(state) {
   };
 }; //connectで結び付けられたComponentクラスのプロパティとしてセットされる
 //今回の場合だと、プロパティのonAddTodoに"(todo)=>dispatch(addTodo(todo))"としてセットされる
+//【プログラムの設計】
+// 1. "mapDispatchToProps"の引数にTODOデータ編集用のdisaptch関数を追加
+// 2. 1.で定義した関数を "TodoList.js"から "Todo.js"コンポーネントへ渡す
+// 3. Todoコンポーネントの表示をフォームへ変更し、『編集完了』ボタンを追加
+// 4. 3.の『編集完了』ボタンをクリックすると、下記で定義したdispatch関数を実行
+// 5. redux-sagaのtodo.jsでdispatchされた値を取得
+// 6. laravel APIへ渡す。その後、変更データを反映。
+// 7. TodoのDB変更値をViewへ反映
 
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -81490,6 +81536,13 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     onAddTodo: function onAddTodo(todo) {
       return dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_4__["addTodo"])(todo));
+    },
+    editTodo: function editTodo(id, todo) {
+      return dispatch({
+        type: "EDIT_TODO_FETCH",
+        id: id,
+        todo: todo
+      });
     }
   };
 };
@@ -81704,9 +81757,13 @@ function rootSaga() {
 
         case 4:
           _context.next = 6;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_todo__WEBPACK_IMPORTED_MODULE_2__["handleSubmitForm"]);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('EDIT_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todoEdit"]);
 
         case 6:
+          _context.next = 8;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_todo__WEBPACK_IMPORTED_MODULE_2__["handleSubmitForm"]);
+
+        case 8:
         case "end":
           return _context.stop();
       }
@@ -81720,12 +81777,13 @@ function rootSaga() {
 /*!************************************!*\
   !*** ./resources/js/sagas/todo.js ***!
   \************************************/
-/*! exports provided: todosFetchList, todosAdd, handleSubmitForm */
+/*! exports provided: todosFetchList, todoEdit, todosAdd, handleSubmitForm */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todosFetchList", function() { return todosFetchList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todoEdit", function() { return todoEdit; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todosAdd", function() { return todosAdd; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handleSubmitForm", function() { return handleSubmitForm; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
@@ -81741,8 +81799,11 @@ var _marked =
 _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todosFetchList),
     _marked2 =
 /*#__PURE__*/
-_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todosAdd),
+_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todoEdit),
     _marked3 =
+/*#__PURE__*/
+_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todosAdd),
+    _marked4 =
 /*#__PURE__*/
 _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(handleSubmitForm);
 
@@ -81773,19 +81834,15 @@ function todosFetchList(action) {
       }
     }
   }, _marked, this);
-} // export function* todosEdit(action){
-//     yield call(TodoAPI.edit,action.todo);
-//     yield put({type:'TODO_SAVE',todo:action.todo});
-//     action.callbackSuccess();
-// }
-
-function todosAdd(action) {
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function todosAdd$(_context2) {
+}
+function todoEdit(payload) {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function todoEdit$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          console.log('【sagaFunction todosAdd】', action); // yield call(TodoAPI.add,action.todo);
-          // yield put({type:'TODO_ADD',todo:action.todo});
+          console.log('/sagas.js/todo.js', payload); // console.log('/sagas.js/todo.js',title);
+          // yield call(TodoAPI.edit,action.todo);
+          // yield put({type:'TODO_SAVE',todo:action.todo});
           // action.callbackSuccess();
 
         case 1:
@@ -81795,73 +81852,87 @@ function todosAdd(action) {
     }
   }, _marked2, this);
 }
+function todosAdd(action) {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function todosAdd$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          console.log('【sagaFunction todosAdd】', action);
+          _context3.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].add, action.todo);
+
+        case 3:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, _marked3, this);
+}
 function handleSubmitForm() {
   var action, params, _ref, data, error;
 
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function handleSubmitForm$(_context3) {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function handleSubmitForm$(_context4) {
     while (1) {
-      switch (_context3.prev = _context3.next) {
+      switch (_context4.prev = _context4.next) {
         case 0:
           console.log('【handleSubmitForm】');
 
         case 1:
           if (false) {}
 
-          _context3.next = 4;
+          _context4.next = 4;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["take"])(_actions__WEBPACK_IMPORTED_MODULE_3__["SUBMIT_FORM"]);
 
         case 4:
-          action = _context3.sent;
-          // console.log('【handleSubmitForm action】',action);
-          params = action.payload.params; // console.log('【handleSubmitForm params】',params);
-
-          _context3.next = 8;
+          action = _context4.sent;
+          params = action.payload.params;
+          _context4.next = 8;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["startSubmit"])('contentForm'));
 
         case 8:
-          _context3.next = 10;
+          _context4.next = 10;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].add, params);
 
         case 10:
-          _ref = _context3.sent;
+          _ref = _context4.sent;
           data = _ref.data;
           error = _ref.error;
 
           if (!(data && !error)) {
-            _context3.next = 21;
+            _context4.next = 21;
             break;
           }
 
           console.log('success');
-          _context3.next = 17;
+          _context4.next = 17;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm'));
 
         case 17:
-          _context3.next = 19;
+          _context4.next = 19;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
             type: 'TODO_ADD',
             response: 'sample text'
           });
 
         case 19:
-          _context3.next = 24;
+          _context4.next = 24;
           break;
 
         case 21:
           console.log('fail');
-          _context3.next = 24;
+          _context4.next = 24;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm'));
 
         case 24:
-          _context3.next = 1;
+          _context4.next = 1;
           break;
 
         case 26:
         case "end":
-          return _context3.stop();
+          return _context4.stop();
       }
     }
-  }, _marked3, this);
+  }, _marked4, this);
 } // export function* todosDelete(action){
 //     yield call(TodoAPI.deletｋ,action.todo);
 //     yield put({type: 'TODO_DELETE',todo:action.todo});
