@@ -81156,9 +81156,18 @@ function () {
         },
         method: 'POST',
         body: JSON.stringify({
-          title: payload
+          id: payload.id,
+          new_title: payload.new_title
         })
-      });
+      }); // .then(res=>res.json())
+      // .then(res=>{
+      //     // console.log('【api.js edit payload success】',res);
+      //     // return {data:res}
+      // })
+      // .catch(error=>{
+      //     console.log(error);
+      //     return error;
+      // })
     }
   }, {
     key: "delete",
@@ -81787,7 +81796,7 @@ function rootSaga() {
 
         case 4:
           _context.next = 6;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('EDIT_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todoEdit"]);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])('EDIT_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todoEdit"]);
 
         case 6:
           _context.next = 8;

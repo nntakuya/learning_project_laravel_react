@@ -56,19 +56,20 @@ export default class TodoAPI {
                 },
                 method:'POST',
                 body:JSON.stringify({
-                    title:payload,
+                    id:payload.id,
+                    new_title:payload.new_title
                 })
             }
-            .then(res=>res.json())
-            .then(res=>{
-                console.log('【api.js edit payload success】',res);
-                return {data:res}
-            })
-            .catch(error=>{
-                console.log(error);
-                return error;
-            })
         )
+        // .then(res=>res.json())
+        // .then(res=>{
+        //     // console.log('【api.js edit payload success】',res);
+        //     // return {data:res}
+        // })
+        // .catch(error=>{
+        //     console.log(error);
+        //     return error;
+        // })
     }
 
 

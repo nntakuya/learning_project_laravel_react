@@ -9,6 +9,6 @@ import {
 export default function* rootSaga(){
      yield takeEvery('GET_TODO_FETCH',todosFetchList);
      yield takeEvery('ADD_TODO_FETCH',todosAdd);
-     yield takeEvery('EDIT_TODO_FETCH',todoEdit);
+     yield takeLatest('EDIT_TODO_FETCH',todoEdit);
      yield fork(handleSubmitForm);
 }

@@ -27,7 +27,11 @@ class TodoController extends Controller
     }
 
     public function edit(Request $request){
-        logger($request);
+        logger($request->id);
+        
+        $todo = Todo::find($request->id);
+        $todo->title = $request->new_title;
+        $todo->save();
     }
 
 
