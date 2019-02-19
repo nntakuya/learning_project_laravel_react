@@ -81366,8 +81366,7 @@ var TodoForm = function TodoForm(props) {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit"
   }, "Submit"));
-}; // const afterSubmit=(result,dispatch)=>dispatch(reset('contentForm'));
-
+};
 
 var afterSubmit = function afterSubmit(result, dispatch) {
   return dispatch(Object(redux_form__WEBPACK_IMPORTED_MODULE_3__["reset"])('contentForm'));
@@ -81380,21 +81379,7 @@ function submit(value, dispatch) {
   console.log('TodoForm submit dispatch', dispatch);
   console.log('TodoForm submit value', value); // dispatch({type:"ADD_TODO_FETCH",payload:'sample text'});
 
-  dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["submitForm"])(value)); // dispatch(addTodo(value));
-  //バックグラウンドにデータを送信
-  // axios
-  //     .post('/api/createTodo',{
-  //         title: value.title
-  //     })
-  //     .then((res)=>{
-  //         console.log('TodoForm.js',res);
-  //         //追加したデータのidを取得し、TodoListの末尾に追加する処理が必要？
-  //         //しかし、何もしなくてもTodoListのTodoコンポーネントが追加されている
-  //         //おそらく、app.jsで<propvider>タグでstoreを囲んでいるため、自動で追加されている気がする
-  //     })
-  //     .catch(error=>{
-  //         console.log('error TodoForm.js',error);
-  //     })
+  dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["submitForm"])(value));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux_form__WEBPACK_IMPORTED_MODULE_3__["reduxForm"])({
@@ -81617,13 +81602,7 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
- //test
 
-var initialState = {
-  data: {
-    todo: []
-  }
-};
 
 var todos = function todos() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -81647,15 +81626,25 @@ var todos = function todos() {
 
     case _actions__WEBPACK_IMPORTED_MODULE_0__["TODO"]:
       console.log('reducers TODO');
-    //下記からテストコード
+    //アプリ初期読み込み時にTODOデータをDBから取得
 
     case 'GET_TODO_PUT':
       console.log('【reducer】GET_TODO_PUT');
       return action.response;
+    //【テスト】下記のCASEでやること
+    //・stateが現在のtodoプロパティなのかを確認
+    //・actionがフォーム入力した値なのかをチェック
+    //・return関数の引数は [] ではなく、{}な気がする
 
-    case 'TODOS_ADD':
-      var todo = action.todos;
-      return [].concat(_toConsumableArray(state), [todo]);
+    case 'TODO_ADD':
+      var todo = action.response;
+      console.log('TODO_ADD action', todo); // const todo = action.todo;
+      // return[
+      //     ...state,
+      //     todo
+      // ];
+
+      return state;
     // case 'SUBMIT_FORM':
     //     console.log('【Reducers SUBMIT_FORM】',action);
     //     return action;
@@ -81772,15 +81761,13 @@ function todosFetchList(action) {
 
         case 2:
           response = _context.sent;
-          console.log('【てすとだよーん】', response); // const payload = response ? response : {};
-
-          _context.next = 6;
+          _context.next = 5;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
             type: 'GET_TODO_PUT',
             response: response
           });
 
-        case 6:
+        case 5:
         case "end":
           return _context.stop();
       }
@@ -81825,49 +81812,51 @@ function handleSubmitForm() {
 
         case 4:
           action = _context3.sent;
-          console.log('【handleSubmitForm action】', action);
-          params = action.payload.params;
-          console.log('【handleSubmitForm params】', params);
-          _context3.next = 10;
+          // console.log('【handleSubmitForm action】',action);
+          params = action.payload.params; // console.log('【handleSubmitForm params】',params);
+
+          _context3.next = 8;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["startSubmit"])('contentForm'));
 
-        case 10:
-          _context3.next = 12;
+        case 8:
+          _context3.next = 10;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].add, params);
 
-        case 12:
+        case 10:
           _ref = _context3.sent;
           data = _ref.data;
           error = _ref.error;
-          console.log('【saga/todo.js reutrn data】', data);
 
           if (!(data && !error)) {
-            _context3.next = 24;
+            _context3.next = 21;
             break;
           }
 
           console.log('success');
-          _context3.next = 20;
+          _context3.next = 17;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm'));
 
-        case 20:
-          _context3.next = 22;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(todosFetchList);
+        case 17:
+          _context3.next = 19;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
+            type: 'TODO_ADD',
+            response: 'sample text'
+          });
 
-        case 22:
-          _context3.next = 27;
+        case 19:
+          _context3.next = 24;
           break;
 
-        case 24:
+        case 21:
           console.log('fail');
-          _context3.next = 27;
+          _context3.next = 24;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm'));
 
-        case 27:
+        case 24:
           _context3.next = 1;
           break;
 
-        case 29:
+        case 26:
         case "end":
           return _context3.stop();
       }

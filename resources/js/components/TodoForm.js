@@ -24,7 +24,6 @@ const TodoForm = (props)=>{
     );
 };
 
-// const afterSubmit=(result,dispatch)=>dispatch(reset('contentForm'));
 const afterSubmit = (result, dispatch) => dispatch(reset('contentForm'));
 
 
@@ -36,23 +35,6 @@ function submit(value, dispatch){
     console.log('TodoForm submit value', value);
     // dispatch({type:"ADD_TODO_FETCH",payload:'sample text'});
     dispatch(submitForm(value));
-
-    // dispatch(addTodo(value));
-
-    //バックグラウンドにデータを送信
-    // axios
-    //     .post('/api/createTodo',{
-    //         title: value.title
-    //     })
-    //     .then((res)=>{
-    //         console.log('TodoForm.js',res);
-    //         //追加したデータのidを取得し、TodoListの末尾に追加する処理が必要？
-    //         //しかし、何もしなくてもTodoListのTodoコンポーネントが追加されている
-    //         //おそらく、app.jsで<propvider>タグでstoreを囲んでいるため、自動で追加されている気がする
-    //     })
-    //     .catch(error=>{
-    //         console.log('error TodoForm.js',error);
-    //     })
 
 }
 

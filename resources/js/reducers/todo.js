@@ -1,11 +1,5 @@
 import {TODO,ADD_TODO} from '../actions'
 
-//test
-const initialState = {
-    data:{
-        todo:[],
-    }
-}
 
 
 const todos = (state=[],action)=>{
@@ -33,18 +27,25 @@ const todos = (state=[],action)=>{
         case TODO:
             console.log('reducers TODO');
 
-        //下記からテストコード
+        //アプリ初期読み込み時にTODOデータをDBから取得
         case 'GET_TODO_PUT':
             console.log('【reducer】GET_TODO_PUT');
 
             return action.response
 
-        case 'TODOS_ADD':
-            const todo = action.todos;
-            return[
-                ...state,
-                todo
-            ];
+        //【テスト】下記のCASEでやること
+        //・stateが現在のtodoプロパティなのかを確認
+        //・actionがフォーム入力した値なのかをチェック
+        //・return関数の引数は [] ではなく、{}な気がする
+        case 'TODO_ADD':
+            const todo = action.response;
+            console.log('TODO_ADD action',todo);
+            // const todo = action.todo;
+            // return[
+            //     ...state,
+            //     todo
+            // ];
+            return state;
 
         // case 'SUBMIT_FORM':
         //     console.log('【Reducers SUBMIT_FORM】',action);
