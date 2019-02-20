@@ -44,9 +44,11 @@ export function* handleSubmitForm(){
             //課題：おそらく現状の状態だと、stateの恩恵を活かせていない
             //componentのkey要素を効率的に処理する方法を考えるべき
             //TODO
-            //現在のやり方；DBから全てのデータを取得し、
-            // yield fork(todosFetchList);
-            yield put({type:'TODO_ADD',response:'sample text'});
+            //現状；DBから全てのデータを取得し、TodoList内のTodoコンポーネントを総入れ替えしている状態
+            //理想：追加したTodoコンポーネントのみTodoList内の最後のコンポーネントの次に追加する
+            yield fork(todosFetchList);
+            //(テスト中、一旦保留)todo追加のactionを追加する処理をしたい
+            // yield put({type:'TODO_ADD',response:'sample text'});
 
             // console.log('data.message',data.message);
 

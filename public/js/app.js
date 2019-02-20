@@ -81947,10 +81947,7 @@ function handleSubmitForm() {
 
         case 17:
           _context4.next = 19;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])({
-            type: 'TODO_ADD',
-            response: 'sample text'
-          });
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(todosFetchList);
 
         case 19:
           _context4.next = 24;
