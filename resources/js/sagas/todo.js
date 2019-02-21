@@ -18,6 +18,13 @@ export function* todoEdit(payload){
     // action.callbackSuccess();
 }
 
+export function* todoDelete(action){
+    console.log('【sagaFunction todoDelete',action);
+    yield call(TodoAPI.delete,action);
+    // yield put({type: 'TODO_DELETE',todo:action.todo});
+    // action.callbackSuccess();
+}
+
 export function* todosAdd(action){
     console.log('【sagaFunction todosAdd】',action);
 
@@ -62,8 +69,4 @@ export function* handleSubmitForm(){
     }
 }
 
-// export function* todosDelete(action){
-//     yield call(TodoAPI.deletｋ,action.todo);
-//     yield put({type: 'TODO_DELETE',todo:action.todo});
-//     action.callbackSuccess();
-// }
+

@@ -18,7 +18,7 @@ class TodoList extends React.Component {
     }
 
     render(){
-        const {editTodo} = this.props;
+        const {editTodo,deleteTodo} = this.props;
         // console.log('render',editTodo);
         return(
             <ul>
@@ -29,6 +29,7 @@ class TodoList extends React.Component {
                                 id={res.id}
                                 title={res.title}
                                 onEditTodo ={editTodo}
+                                onDeleteTodo={deleteTodo}
                             />
                 })}
             </ul>
@@ -59,6 +60,7 @@ const mapDispatchToProps = dispatch =>({
     fetchTodo: (payload)=>dispatch({type:"GET_TODO_FETCH",payload}),
     onAddTodo: (todo)=>dispatch(addTodo(todo)),
     editTodo:(id,title,new_title)=>dispatch({type:"EDIT_TODO_FETCH",id:id,title:title,new_title:new_title}),
+    deleteTodo:(id)=>dispatch({type:"DELETE_TODO_FETCH",id:id})
 })
 
 export default connect(mapStateTodProps,mapDispatchToProps)(TodoList);

@@ -16,7 +16,6 @@ const TodoForm = (props)=>{
                 <Field
                     name="title"
                     component={renderField}
-                    // component="input"
                     type="text"
                     label="Title"
                 />

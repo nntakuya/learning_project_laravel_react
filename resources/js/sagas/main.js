@@ -4,11 +4,13 @@ import {
      todosAdd,
      handleSubmitForm,
      todoEdit,
-     todosDelete} from './todo'
+     todosDelete,
+     todoDelete} from './todo'
 
 export default function* rootSaga(){
      yield takeEvery('GET_TODO_FETCH',todosFetchList);
      yield takeEvery('ADD_TODO_FETCH',todosAdd);
      yield takeLatest('EDIT_TODO_FETCH',todoEdit);
+     yield takeEvery('DELETE_TODO_FETCH',todoDelete)
      yield fork(handleSubmitForm);
 }

@@ -81171,7 +81171,9 @@ function () {
     }
   }, {
     key: "delete",
-    value: function _delete(payload) {}
+    value: function _delete(payload) {
+      console.log('【api.js delete】', payload);
+    }
   }]);
 
   return TodoAPI;
@@ -81363,7 +81365,8 @@ function (_React$Component) {
       var _this$props = this.props,
           id = _this$props.id,
           title = _this$props.title,
-          onEditTodo = _this$props.onEditTodo;
+          onEditTodo = _this$props.onEditTodo,
+          onDeleteTodo = _this$props.onDeleteTodo;
       var new_title;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: function onSubmit(e) {
@@ -81380,7 +81383,11 @@ function (_React$Component) {
         onClick: function onClick(e) {
           return onEditTodo(id, title, new_title);
         }
-      }, "\u7DE8\u96C6")));
+      }, "\u7DE8\u96C6"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick(e) {
+          return onDeleteTodo(id);
+        }
+      }, "\u524A\u9664")));
     }
   }]);
 
@@ -81422,8 +81429,7 @@ var TodoForm = function TodoForm(props) {
     htmlFor: "todo"
   }, "Todo"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(redux_form__WEBPACK_IMPORTED_MODULE_3__["Field"], {
     name: "title",
-    component: renderField // component="input"
-    ,
+    component: renderField,
     type: "text",
     label: "Title"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -81546,7 +81552,9 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var editTodo = this.props.editTodo; // console.log('render',editTodo);
+      var _this$props2 = this.props,
+          editTodo = _this$props2.editTodo,
+          deleteTodo = _this$props2.deleteTodo; // console.log('render',editTodo);
 
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.props.todos.map(function (res) {
         console.log('todos.map', res);
@@ -81554,7 +81562,8 @@ function (_React$Component) {
           key: res.id,
           id: res.id,
           title: res.title,
-          onEditTodo: editTodo
+          onEditTodo: editTodo,
+          onDeleteTodo: deleteTodo
         });
       }));
     }
@@ -81601,6 +81610,12 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
         id: id,
         title: title,
         new_title: new_title
+      });
+    },
+    deleteTodo: function deleteTodo(id) {
+      return dispatch({
+        type: "DELETE_TODO_FETCH",
+        id: id
       });
     }
   };
@@ -81820,9 +81835,13 @@ function rootSaga() {
 
         case 6:
           _context.next = 8;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_todo__WEBPACK_IMPORTED_MODULE_2__["handleSubmitForm"]);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('DELETE_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todoDelete"]);
 
         case 8:
+          _context.next = 10;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_todo__WEBPACK_IMPORTED_MODULE_2__["handleSubmitForm"]);
+
+        case 10:
         case "end":
           return _context.stop();
       }
@@ -81836,13 +81855,14 @@ function rootSaga() {
 /*!************************************!*\
   !*** ./resources/js/sagas/todo.js ***!
   \************************************/
-/*! exports provided: todosFetchList, todoEdit, todosAdd, handleSubmitForm */
+/*! exports provided: todosFetchList, todoEdit, todoDelete, todosAdd, handleSubmitForm */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todosFetchList", function() { return todosFetchList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todoEdit", function() { return todoEdit; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todoDelete", function() { return todoDelete; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todosAdd", function() { return todosAdd; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handleSubmitForm", function() { return handleSubmitForm; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
@@ -81861,8 +81881,11 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todosFetc
 _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todoEdit),
     _marked3 =
 /*#__PURE__*/
-_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todosAdd),
+_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todoDelete),
     _marked4 =
+/*#__PURE__*/
+_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todosAdd),
+    _marked5 =
 /*#__PURE__*/
 _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(handleSubmitForm);
 
@@ -81910,14 +81933,14 @@ function todoEdit(payload) {
     }
   }, _marked2, this);
 }
-function todosAdd(action) {
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function todosAdd$(_context3) {
+function todoDelete(action) {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function todoDelete$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          console.log('【sagaFunction todosAdd】', action);
+          console.log('【sagaFunction todoDelete', action);
           _context3.next = 3;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].add, action.todo);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].delete, action);
 
         case 3:
         case "end":
@@ -81926,73 +81949,85 @@ function todosAdd(action) {
     }
   }, _marked3, this);
 }
+function todosAdd(action) {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function todosAdd$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          console.log('【sagaFunction todosAdd】', action);
+          _context4.next = 3;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].add, action.todo);
+
+        case 3:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  }, _marked4, this);
+}
 function handleSubmitForm() {
   var action, params, _ref, data, error;
 
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function handleSubmitForm$(_context4) {
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function handleSubmitForm$(_context5) {
     while (1) {
-      switch (_context4.prev = _context4.next) {
+      switch (_context5.prev = _context5.next) {
         case 0:
           console.log('【handleSubmitForm】');
 
         case 1:
           if (false) {}
 
-          _context4.next = 4;
+          _context5.next = 4;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["take"])(_actions__WEBPACK_IMPORTED_MODULE_3__["SUBMIT_FORM"]);
 
         case 4:
-          action = _context4.sent;
+          action = _context5.sent;
           params = action.payload.params;
-          _context4.next = 8;
+          _context5.next = 8;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["startSubmit"])('contentForm'));
 
         case 8:
-          _context4.next = 10;
+          _context5.next = 10;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].add, params);
 
         case 10:
-          _ref = _context4.sent;
+          _ref = _context5.sent;
           data = _ref.data;
           error = _ref.error;
 
           if (!(data && !error)) {
-            _context4.next = 21;
+            _context5.next = 21;
             break;
           }
 
           console.log('success');
-          _context4.next = 17;
+          _context5.next = 17;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm'));
 
         case 17:
-          _context4.next = 19;
+          _context5.next = 19;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(todosFetchList);
 
         case 19:
-          _context4.next = 24;
+          _context5.next = 24;
           break;
 
         case 21:
           console.log('fail');
-          _context4.next = 24;
+          _context5.next = 24;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm'));
 
         case 24:
-          _context4.next = 1;
+          _context5.next = 1;
           break;
 
         case 26:
         case "end":
-          return _context4.stop();
+          return _context5.stop();
       }
     }
-  }, _marked4, this);
-} // export function* todosDelete(action){
-//     yield call(TodoAPI.deletｋ,action.todo);
-//     yield put({type: 'TODO_DELETE',todo:action.todo});
-//     action.callbackSuccess();
-// }
+  }, _marked5, this);
+}
 
 /***/ }),
 

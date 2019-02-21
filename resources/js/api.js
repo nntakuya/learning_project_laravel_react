@@ -74,7 +74,7 @@ export default class TodoAPI {
 
 
     static delete(payload){
-
+        console.log('【api.js delete】',payload);
     }
 
 
