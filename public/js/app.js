@@ -81420,8 +81420,6 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 
 var TodoForm = function TodoForm(props) {
-  //データ確認
-  console.log('TodoForm props', props.value);
   var handleSubmit = props.handleSubmit;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: handleSubmit(submit)
@@ -81445,7 +81443,6 @@ var afterSubmit = function afterSubmit(result, dispatch) {
 
 
 function submit(value, dispatch) {
-  console.log('TodoForm submit dispatch', dispatch);
   console.log('TodoForm submit value', value); // dispatch({type:"ADD_TODO_FETCH",payload:'sample text'});
 
   dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["submitForm"])(value));
@@ -81545,19 +81542,15 @@ function (_React$Component) {
           onAddTodo = _this$props.onAddTodo,
           fetchTodo = _this$props.fetchTodo,
           editTodo = _this$props.editTodo;
-      fetchTodo('sample text'); // editTodo('test text');
-
-      console.log('TodoList', this.props);
+      fetchTodo('sample text');
     }
   }, {
     key: "render",
     value: function render() {
       var _this$props2 = this.props,
           editTodo = _this$props2.editTodo,
-          deleteTodo = _this$props2.deleteTodo; // console.log('render',editTodo);
-
+          deleteTodo = _this$props2.deleteTodo;
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.props.todos.map(function (res) {
-        console.log('todos.map', res);
         return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Todo__WEBPACK_IMPORTED_MODULE_3__["default"], {
           key: res.id,
           id: res.id,
@@ -81737,26 +81730,17 @@ var todos = function todos() {
 
   switch (action.type) {
     case _actions__WEBPACK_IMPORTED_MODULE_0__["ADD_TODO"]:
-      console.log('reducers ADD_TODO');
-      console.log(action.todo_data); // console.log('Reducer state',state);
-      // console.log('Reducer action',action);
       //1. "...state" : 現在の状態のデータ
       //2. "{}" : これか状態に追加するデータ
       //'1'と"2"を配列で連結した上で、returnしている
-      // console.log('...state',[...state,{todo_data:action.todo_data}]);
-
       var test = [].concat(_toConsumableArray(state), [{
         todo_data: action.todo_data
       }]);
-      console.log('test', test);
       return test;
 
-    case _actions__WEBPACK_IMPORTED_MODULE_0__["TODO"]:
-      console.log('reducers TODO');
-    //アプリ初期読み込み時にTODOデータをDBから取得
+    case _actions__WEBPACK_IMPORTED_MODULE_0__["TODO"]: //アプリ初期読み込み時にTODOデータをDBから取得
 
     case 'GET_TODO_PUT':
-      console.log('【reducer】GET_TODO_PUT');
       return action.response;
     //【テスト】下記のCASEでやること
     //・stateが現在のtodoプロパティなのかを確認
@@ -81764,8 +81748,7 @@ var todos = function todos() {
     //・return関数の引数は [] ではなく、{}な気がする
 
     case 'TODO_ADD':
-      var todo = action.response;
-      console.log('TODO_ADD action', todo); // const todo = action.todo;
+      var todo = action.response; // const todo = action.todo;
       // return[
       //     ...state,
       //     todo

@@ -37,6 +37,7 @@ class DeleteModal extends React.Component {
      }
 }
 
-const props = {};
+export default DeleteModal;
+// const props = {};
 
-ReactDOM.render(<ExampleApp {...props} />, document.getElementById('main'));
+// ReactDOM.render(<ExampleApp {...props} />, document.getElementById('main'));

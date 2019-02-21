@@ -13,17 +13,14 @@ class TodoList extends React.Component {
     componentDidMount(){
         const {readTodo,onAddTodo,fetchTodo,editTodo} = this.props;
         fetchTodo('sample text');
-        // editTodo('test text');
-        console.log('TodoList',this.props);
     }
 
     render(){
         const {editTodo,deleteTodo} = this.props;
-        // console.log('render',editTodo);
+
         return(
             <ul>
                 {this.props.todos.map(res=>{
-                    console.log('todos.map',res);
                     return <Todo
                                 key={res.id}
                                 id={res.id}
