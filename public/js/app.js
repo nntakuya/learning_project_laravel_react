@@ -81344,9 +81344,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 
- // const Todo = (props) =>(
-//     <li>{props.title}</li>
-// )
+
 
 var Todo =
 /*#__PURE__*/
@@ -81356,18 +81354,8 @@ function (_React$Component) {
   function Todo(props) {
     _classCallCheck(this, Todo);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Todo).call(this)); // console.log('【Todo Component】',props);
-    // this.state={
-    //     new_tilte:''
-    // }
-    // this.handleNewTodoTitile = this.handleNewTodoTitile.bind(this);
-    // console.log('Todo',this);
-  } // handleNewTodoTitile(new_tilte){
-  //     console.log('【new_tilte】',new_tilte);
-  //     this.setState({new_tilte});
-  //     console.log(this);
-  // }
-
+    return _possibleConstructorReturn(this, _getPrototypeOf(Todo).call(this));
+  }
 
   _createClass(Todo, [{
     key: "render",
