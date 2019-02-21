@@ -15,8 +15,10 @@ const TodoForm = (props)=>{
                 <label htmlFor="todo">Todo</label>
                 <Field
                     name="title"
-                    component="input"
+                    component={renderField}
+                    // component="input"
                     type="text"
+                    label="Title"
                 />
             </div>
             <button type="submit">Submit</button>
@@ -35,10 +37,39 @@ function submit(value, dispatch){
     console.log('TodoForm submit value', value);
     // dispatch({type:"ADD_TODO_FETCH",payload:'sample text'});
     dispatch(submitForm(value));
-
 }
+
+//バリデーション
+const validate = values =>{
+    const errors = {};
+    if (!values.title) {
+        errors.title='Required'
+    }else if(values.title.length > 15){
+        errors.title = 'Must be 15 characters or less'
+    }
+
+    return errors;
+}
+
+//バリデーションエラー表示
+const renderField =({
+    input,
+    label,
+    type,
+    meta:{touched,error}
+})=>(
+    <div>
+        {/* <label> {label} </label> */}
+        <div>
+            <input {...input} placeholder={label} type={type} />
+            {touched && (error && <span> {error} </span>)}
+        </div>
+    </div>
+)
+
 
 export default reduxForm({
     form:'contentForm',
-    onSubmitSuccess: afterSubmit
+    onSubmitSuccess: afterSubmit,
+    validate,
 })(TodoForm);

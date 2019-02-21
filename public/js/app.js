@@ -81417,6 +81417,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./resources/js/actions/index.js");
 /* harmony import */ var redux_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux-form */ "./node_modules/redux-form/es/index.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 
 
 
@@ -81432,8 +81434,10 @@ var TodoForm = function TodoForm(props) {
     htmlFor: "todo"
   }, "Todo"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(redux_form__WEBPACK_IMPORTED_MODULE_3__["Field"], {
     name: "title",
-    component: "input",
-    type: "text"
+    component: renderField // component="input"
+    ,
+    type: "text",
+    label: "Title"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit"
   }, "Submit"));
@@ -81451,11 +81455,39 @@ function submit(value, dispatch) {
   console.log('TodoForm submit value', value); // dispatch({type:"ADD_TODO_FETCH",payload:'sample text'});
 
   dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_2__["submitForm"])(value));
-}
+} //バリデーション
+
+
+var validate = function validate(values) {
+  var errors = {};
+
+  if (!values.title) {
+    errors.title = 'Required';
+  } else if (values.title.length > 15) {
+    errors.title = 'Must be 15 characters or less';
+  }
+
+  return errors;
+}; //バリデーションエラー表示
+
+
+var renderField = function renderField(_ref) {
+  var input = _ref.input,
+      label = _ref.label,
+      type = _ref.type,
+      _ref$meta = _ref.meta,
+      touched = _ref$meta.touched,
+      error = _ref$meta.error;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", _extends({}, input, {
+    placeholder: label,
+    type: type
+  })), touched && error && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, " ", error, " ")));
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux_form__WEBPACK_IMPORTED_MODULE_3__["reduxForm"])({
   form: 'contentForm',
-  onSubmitSuccess: afterSubmit
+  onSubmitSuccess: afterSubmit,
+  validate: validate
 })(TodoForm));
 
 /***/ }),
