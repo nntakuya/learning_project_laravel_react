@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import todos from './todo';
+import modal from './modal';
 import {reducer as reduxFormReducer } from 'redux-form'
 
 //reducersは、コンポーネントのどこかで変更があった場合にすべてのreducersが働く仕様になっている
@@ -9,6 +10,7 @@ import {reducer as reduxFormReducer } from 'redux-form'
 
 const todoApp = combineReducers({
     todos,
+    modal,
     form: reduxFormReducer
 });
 

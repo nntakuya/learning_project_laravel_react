@@ -81034,7 +81034,7 @@ if (!self.fetch) {
 /*!***************************************!*\
   !*** ./resources/js/actions/index.js ***!
   \***************************************/
-/*! exports provided: TODO, ADD_TODO, SUBMIT_FORM, readTodo, addTodo, submitForm */
+/*! exports provided: TODO, ADD_TODO, SUBMIT_FORM, HIDE_MODAL, SHOW_MODAL, readTodo, addTodo, submitForm, showModal, hideModal */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -81042,12 +81042,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TODO", function() { return TODO; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_TODO", function() { return ADD_TODO; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SUBMIT_FORM", function() { return SUBMIT_FORM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HIDE_MODAL", function() { return HIDE_MODAL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SHOW_MODAL", function() { return SHOW_MODAL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "readTodo", function() { return readTodo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addTodo", function() { return addTodo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "submitForm", function() { return submitForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showModal", function() { return showModal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hideModal", function() { return hideModal; });
 var TODO = 'TODO';
 var ADD_TODO = 'ADD_TODO';
-var SUBMIT_FORM = 'SUBMIT_FORM'; //Action Creators
+var SUBMIT_FORM = 'SUBMIT_FORM';
+var HIDE_MODAL = 'HIDE_MODAL';
+var SHOW_MODAL = 'SHOW_MODAL'; //Action Creators
 
 function readTodo(index) {
   return {
@@ -81069,6 +81075,18 @@ function submitForm(params) {
     payload: {
       params: params
     }
+  };
+}
+function showModal(modalProps, modalType) {
+  return {
+    type: SHOW_MODAL,
+    modalProps: modalProps,
+    modalType: modalType
+  };
+}
+function hideModal() {
+  return {
+    type: HIDE_MODAL
   };
 }
 
@@ -81327,6 +81345,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -81347,6 +81366,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+ // import {showModal,hideModal} from '../actions';
+// import ModalWindow from '../containers/ModalContainer';
 
 var Todo =
 /*#__PURE__*/
@@ -81356,8 +81377,18 @@ function (_React$Component) {
   function Todo(props) {
     _classCallCheck(this, Todo);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Todo).call(this));
-  }
+    return _possibleConstructorReturn(this, _getPrototypeOf(Todo).call(this)); // this.openAlertModal = this.openAlertModal.bind(this);
+  } // openAlertModal(event){
+  //     //下記のcloseModalメソッドは認識されない気がする
+  //     console.log('openAlertModal prpos',this.props);
+  //     this.props.showModal({
+  //         open:true,
+  //         title:'Alert Modal',
+  //         message:'Message',
+  //         // closeModal:this.closeModal
+  //     },'alert')
+  // }
+
 
   _createClass(Todo, [{
     key: "render",
@@ -81366,7 +81397,8 @@ function (_React$Component) {
           id = _this$props.id,
           title = _this$props.title,
           onEditTodo = _this$props.onEditTodo,
-          onDeleteTodo = _this$props.onDeleteTodo;
+          onDeleteTodo = _this$props.onDeleteTodo; // console.log('test',this.props);
+
       var new_title;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: function onSubmit(e) {
@@ -81392,7 +81424,15 @@ function (_React$Component) {
   }]);
 
   return Todo;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component); // const mapDispatchToProps = dispatch =>({
+//     hideModal:()=>dispatch(hideModal()),
+//     showModal:(modalProps,modalTypes)=>{
+//         // console.log('test showmodal',modalTypes);
+//         dispatch(showModal(modalProps,modalTypes))
+//     }
+// })
+// export default connect(null,mapDispatchToProps)(Todo);
+
 
 /* harmony default export */ __webpack_exports__["default"] = (Todo);
 
@@ -81573,14 +81613,6 @@ var mapStateTodProps = function mapStateTodProps(state) {
   };
 }; //connectで結び付けられたComponentクラスのプロパティとしてセットされる
 //今回の場合だと、プロパティのonAddTodoに"(todo)=>dispatch(addTodo(todo))"としてセットされる
-//【プログラムの設計】
-// 1. "mapDispatchToProps"の引数にTODOデータ編集用のdisaptch関数を追加
-// 2. 1.で定義した関数を "TodoList.js"から "Todo.js"コンポーネントへ渡す
-// 3. Todoコンポーネントの表示をフォームへ変更し、『編集完了』ボタンを追加
-// 4. 3.の『編集完了』ボタンをクリックすると、下記で定義したdispatch関数を実行
-// 5. redux-sagaのtodo.jsでdispatchされた値を取得
-// 6. laravel APIへ渡す。その後、変更データを反映。
-// 7. TodoのDB変更値をViewへ反映
 
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -81685,7 +81717,9 @@ Object(react_dom__WEBPACK_IMPORTED_MODULE_1__["render"])(react__WEBPACK_IMPORTED
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _todo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./todo */ "./resources/js/reducers/todo.js");
-/* harmony import */ var redux_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-form */ "./node_modules/redux-form/es/index.js");
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modal */ "./resources/js/reducers/modal.js");
+/* harmony import */ var redux_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux-form */ "./node_modules/redux-form/es/index.js");
+
 
 
  //reducersは、コンポーネントのどこかで変更があった場合にすべてのreducersが働く仕様になっている
@@ -81694,9 +81728,49 @@ __webpack_require__.r(__webpack_exports__);
 
 var todoApp = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   todos: _todo__WEBPACK_IMPORTED_MODULE_1__["default"],
-  form: redux_form__WEBPACK_IMPORTED_MODULE_2__["reducer"]
+  modal: _modal__WEBPACK_IMPORTED_MODULE_2__["default"],
+  form: redux_form__WEBPACK_IMPORTED_MODULE_3__["reducer"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (todoApp);
+
+/***/ }),
+
+/***/ "./resources/js/reducers/modal.js":
+/*!****************************************!*\
+  !*** ./resources/js/reducers/modal.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var initialState = {
+  modalType: null,
+  modalProps: {}
+};
+
+function modal() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case 'SHOW_MODAL':
+      console.log('SHOW_MODAL', action);
+      return {
+        modalType: action.modalType,
+        modalProps: action.modalProps
+      };
+
+    case 'HIDE_MODAL':
+      console.log('SHOW_MODAL');
+      return initialState;
+
+    default:
+      return state;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (modal);
 
 /***/ }),
 

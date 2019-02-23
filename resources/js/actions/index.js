@@ -1,6 +1,8 @@
 export const TODO = 'TODO';
 export const ADD_TODO = 'ADD_TODO';
 export const SUBMIT_FORM = 'SUBMIT_FORM';
+export const HIDE_MODAL = 'HIDE_MODAL';
+export const SHOW_MODAL = 'SHOW_MODAL';
 
 //Action Creators
 
@@ -28,4 +30,18 @@ export function submitForm(params){
         type: SUBMIT_FORM,
         payload: {params}
     }
+}
+
+export function showModal(modalProps,modalType){
+    return {
+        type:SHOW_MODAL,
+        modalProps,
+        modalType
+    };
+}
+
+export function hideModal(){
+    return {
+        type:HIDE_MODAL
+    };
 }
