@@ -94011,7 +94011,7 @@ function (_Component) {
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: classes.modalContent
-      }, " ", chilidren, " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, " ", children, " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         className: classes.closeButton,
         onClick: onCloseRequest
@@ -94228,7 +94228,7 @@ function (_React$Component) {
         buttonLabel: "Open Modal"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: classes.textModal
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "sample title")))));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, " ", title, " ")))));
     }
   }]);
 

@@ -45,13 +45,13 @@ class Modal extends Component {
           return (
                <div className={classes.modalOverlay}>
                     <div className={classes.modal} ref={node=>(this.modal=node)}>
-                         <div className={classes.modalContent}> {chilidren} </div>
+                         <div className={classes.modalContent}> {children} </div>
                     </div>
                     <button
-                    type="button"
-                    className={classes.closeButton}
-                    onClick={onCloseRequest}
-               />
+                         type="button"
+                         className={classes.closeButton}
+                         onClick={onCloseRequest}
+                    />
                </div>
           );
      }
