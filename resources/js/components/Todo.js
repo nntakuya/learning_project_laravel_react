@@ -3,11 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // import {showModal,hideModal} from '../actions';
 // import ModalWindow from '../containers/ModalContainer';
+import ModalLauncher from '../containers/ModalLauncher/ModalLauncher';
+import injectSheet from 'react-jss';
+import styles from './TodoStyles';
+
 
 
 class Todo extends React.Component{
     constructor(props){
         super();
+        // console.log(props);
+        // const {classes} = props
+        // console.log('sample',classes);
         // this.openAlertModal = this.openAlertModal.bind(this);
     }
 
@@ -26,7 +33,7 @@ class Todo extends React.Component{
 
 
     render(){
-        const {id,title,onEditTodo,onDeleteTodo} = this.props;
+        const {id,title,onEditTodo,onDeleteTodo,classes} = this.props;
         // console.log('test',this.props);
 
         let new_title;
@@ -41,8 +48,13 @@ class Todo extends React.Component{
                         onChange={ e => new_title = e.target.value }
                     />
                     <br/>
-                    <button onClick={e => onEditTodo(id,title,new_title)}>編集</button>
+                    <button onClick={e => onEditTodo(id,title,new_title)}>編集です</button>
                     <button onClick={e => onDeleteTodo(id)}>削除</button>
+                    <ModalLauncher buttonLabel="Open Modal">
+                        <div className={classes.textModal}>
+                            <h2>sample title</h2>
+                        </div>
+                    </ModalLauncher>
                     {/* <button onClick={this.openAlertModal}>削除</button> */}
                 </form>
                 {/* <ModalWindow /> */}
@@ -60,4 +72,7 @@ class Todo extends React.Component{
 // })
 
 // export default connect(null,mapDispatchToProps)(Todo);
-export default Todo;
+// export default Todo;
+
+const StyledTodo = injectSheet(styles)(Todo);
+export default StyledTodo;
