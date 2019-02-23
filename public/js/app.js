@@ -93938,13 +93938,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 
 
@@ -93958,22 +93958,39 @@ function (_Component) {
   _inherits(Modal, _Component);
 
   function Modal(props) {
+    var _this;
+
     _classCallCheck(this, Modal);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Modal).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Modal).call(this, props));
+    _this.handleKeyUp = _this.handleKeyUp.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleOutsideClick = _this.handleOutsideClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    return _this;
   }
 
   _createClass(Modal, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      window.addEventListener('keyup', this.handleKeyUp, false);
+      document.addEventListener("click", this.handleOutsideClick, false);
+    }
+  }, {
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      window.removeEventListener("keyup", this.handleKeyUp, false);
+      document.removeEventListener("click", this.handleOutsideClick, false);
+    }
+  }, {
     key: "handleKeyUp",
     value: function handleKeyUp(e) {
-      var _this = this;
+      var _this2 = this;
 
       var onCloseRequest = this.props.onCloseRequest;
       var keys = {
         27: function _() {
-          e.prevnetDefault();
+          e.preventDefault();
           onCloseRequest();
-          window.removeEventListener("keyup", _this.handleKeyUp, false);
+          window.removeEventListener("keyup", _this2.handleKeyUp, false);
         }
       };
 
@@ -93996,7 +94013,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _this$props = this.props,
           onCloseRequest = _this$props.onCloseRequest,
@@ -94007,7 +94024,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: classes.modal,
         ref: function ref(node) {
-          return _this2.modal = node;
+          return _this3.modal = node;
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: classes.modalContent
@@ -94612,15 +94629,18 @@ function (_Component) {
     _this.state = {
       showModal: false
     };
+    console.log('ModalLauncher const', props);
     return _this;
   }
 
   _createClass(ModalLauncher, [{
     key: "handleToggleModal",
     value: function handleToggleModal() {
+      console.log('【ModalLauncher handleToggleModal before】', this.state);
       this.setState({
         showModal: !this.state.showModal
       });
+      console.log('【ModalLauncher handleToggleModal after】', this.state);
     }
   }, {
     key: "render",
@@ -94632,6 +94652,15 @@ function (_Component) {
           children = _this$props.children,
           classes = _this$props.classes;
       var showModal = this.state.showModal;
+      console.log('【ModalLauncher showModal】', showModal); //【疑問】 下記のやり方は、良いのか疑問
+      //  どうやら、showModalの評価がtrueの場合は "Modal"コンポーネントがそのまま評価される
+      //  falseの場合、"Modal"コンポーネントを含めた評価がfalseとなり、結果としてModalコンポーネントが表示される
+
+      console.log('【ModalLauncher testA 】', showModal && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Modal_Modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        onCloseRequest: function onCloseRequest() {
+          return _this2.handleToggleModal();
+        }
+      }, children));
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         className: classes.modalButton,

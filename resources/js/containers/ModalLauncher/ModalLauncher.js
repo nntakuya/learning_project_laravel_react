@@ -10,15 +10,27 @@ class ModalLauncher extends Component {
           this.state = {
                showModal: false
           };
+          console.log('ModalLauncher const',props);
      }
 
      handleToggleModal(){
+          console.log('【ModalLauncher handleToggleModal before】',this.state);
           this.setState({ showModal: !this.state.showModal});
+          console.log('【ModalLauncher handleToggleModal after】',this.state);
      }
 
      render(){
           const { buttonLabel, children, classes } = this.props;
           const {showModal} = this.state;
+          console.log('【ModalLauncher showModal】',showModal);
+          //【疑問】 下記のやり方は、良いのか疑問
+          //  どうやら、showModalの評価がtrueの場合は "Modal"コンポーネントがそのまま評価される
+          //  falseの場合、"Modal"コンポーネントを含めた評価がfalseとなり、結果としてModalコンポーネントが表示される
+          console.log('【ModalLauncher testA 】',showModal &&(
+               <Modal onCloseRequest={()=>this.handleToggleModal()}>
+                    {children}
+               </Modal>
+          ));
 
           return(
                <div>
