@@ -32,7 +32,6 @@ class TodoList extends React.Component {
             </ul>
         )
     };
-
 }
 
 //下記の"todos"キーの値として、componentDidMountでLaravel APIから取得したデータをセットする

@@ -93985,16 +93985,25 @@ function (_Component) {
     value: function handleKeyUp(e) {
       var _this2 = this;
 
-      var onCloseRequest = this.props.onCloseRequest;
+      var onCloseRequest = this.props.onCloseRequest; //抑えとくべきポイント
+      // 下記の "27" は "esc"キーのキーコード（すなわち、キーボードのボタンの番号）
+      // それは JSの場合 "e.keyCode" でクリックしたボタンのキーコードを取得できる
+      //下記のオブジェクトに27というプロパティをセットする
+      //if構文で、27(escキー)がクリックされた場合のみ、27にセットされている関数群《 ()=>{} 》の3つの関数が実行される
+
       var keys = {
         27: function _() {
-          e.preventDefault();
-          onCloseRequest();
-          window.removeEventListener("keyup", _this2.handleKeyUp, false);
+          e.preventDefault(); //デフォルト処理をキャンセルする
+
+          onCloseRequest(); //モーダルウィンドウをクローズする
+
+          window.removeEventListener("keyup", _this2.handleKeyUp, false); //WindowにセットされたEveneListenerを解除
         }
       };
+      console.log('【handleKeyUp keys】keys', keys);
 
       if (keys[e.keyCode]) {
+        console.log('発動！！！！！！！！！！！！！！！', e.keyCode);
         keys[e.keyCode]();
       }
     }
@@ -94018,7 +94027,9 @@ function (_Component) {
       var _this$props = this.props,
           onCloseRequest = _this$props.onCloseRequest,
           children = _this$props.children,
-          classes = _this$props.classes;
+          classes = _this$props.classes,
+          onDeleteTodo = _this$props.onDeleteTodo; // console.log('Modal',this.props);
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: classes.modalOverlay
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -94028,7 +94039,15 @@ function (_Component) {
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: classes.modalContent
-      }, " ", children, " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, " ", children, " \u3092\u524A\u9664\u3057\u307E\u3059\u304B\uFF1F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: function onSubmit(e) {
+          return e.preventDefault();
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: onCloseRequest
+      }, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: onDeleteTodo
+      }, "Delete"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         className: classes.closeButton,
         onClick: onCloseRequest
@@ -94241,11 +94260,12 @@ function (_React$Component) {
         onClick: function onClick(e) {
           return onDeleteTodo(id);
         }
-      }, "\u524A\u9664"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_ModalLauncher_ModalLauncher__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        buttonLabel: "Open Modal"
+      }, "\u524A\u9664")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_ModalLauncher_ModalLauncher__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        buttonLabel: "Open Modal",
+        onDeleteTodo: onDeleteTodo
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: classes.textModal
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, " ", title, " ")))));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, " ", title, " "))));
     }
   }]);
 
@@ -94650,9 +94670,10 @@ function (_Component) {
       var _this$props = this.props,
           buttonLabel = _this$props.buttonLabel,
           children = _this$props.children,
-          classes = _this$props.classes;
+          classes = _this$props.classes,
+          onDeleteTodo = _this$props.onDeleteTodo;
       var showModal = this.state.showModal;
-      console.log('【ModalLauncher showModal】', showModal); //【疑問】 下記のやり方は、良いのか疑問
+      console.log('【ModalLauncher showModal】', onDeleteTodo); //【疑問】 下記のやり方は、良いのか疑問
       //  どうやら、showModalの評価がtrueの場合は "Modal"コンポーネントがそのまま評価される
       //  falseの場合、"Modal"コンポーネントを含めた評価がfalseとなり、結果としてModalコンポーネントが表示される
 
@@ -94670,7 +94691,8 @@ function (_Component) {
       }, buttonLabel), showModal && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Modal_Modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
         onCloseRequest: function onCloseRequest() {
           return _this2.handleToggleModal();
-        }
+        },
+        onDeleteTodo: onDeleteTodo
       }, children));
     }
   }]);

@@ -50,13 +50,15 @@ class Todo extends React.Component{
                     <br/>
                     <button onClick={e => onEditTodo(id,title,new_title)}>編集です</button>
                     <button onClick={e => onDeleteTodo(id)}>削除</button>
-                    <ModalLauncher buttonLabel="Open Modal">
+                </form>
+                <ModalLauncher 
+                    buttonLabel="Open Modal"
+                    onDeleteTodo={onDeleteTodo}
+                >
                         <div className={classes.textModal}>
                             <h2> {title} </h2>
                         </div>
-                    </ModalLauncher>
-                    {/* <button onClick={this.openAlertModal}>削除</button> */}
-                </form>
+                </ModalLauncher>
             </li>
         )
     }
