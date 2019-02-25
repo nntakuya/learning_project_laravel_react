@@ -74,7 +74,22 @@ export default class TodoAPI {
 
 
     static delete(payload){
-        console.log('【api.js delete】',payload);
+        console.log('【api.js delete】',payload.id);
+
+        return fetch(
+            '/api/deleteTodo',
+            {
+                headers:{
+                    "Content-Type":"application/json",
+                    "Accept":"application/json,text-plain,*/*",
+                    "X-Requested-With":"XMLHttpRequest",
+                },
+                method:'POST',
+                body:JSON.stringify({
+                    id:payload.id,
+                })
+            }
+        )
     }
 
 

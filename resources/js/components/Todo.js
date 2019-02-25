@@ -12,24 +12,7 @@ import styles from './TodoStyles';
 class Todo extends React.Component{
     constructor(props){
         super();
-        // console.log(props);
-        // const {classes} = props
-        // console.log('sample',classes);
-        // this.openAlertModal = this.openAlertModal.bind(this);
     }
-
-    // openAlertModal(event){
-    //     //下記のcloseModalメソッドは認識されない気がする
-    //     console.log('openAlertModal prpos',this.props);
-
-    //     this.props.showModal({
-    //         open:true,
-    //         title:'Alert Modal',
-    //         message:'Message',
-    //         // closeModal:this.closeModal
-    //     },'alert')
-    // }
-
 
 
     render(){
@@ -51,8 +34,9 @@ class Todo extends React.Component{
                     <button onClick={e => onEditTodo(id,title,new_title)}>編集です</button>
                     <button onClick={e => onDeleteTodo(id)}>削除</button>
                 </form>
-                <ModalLauncher 
+                <ModalLauncher
                     buttonLabel="Open Modal"
+                    id={id}
                     onDeleteTodo={onDeleteTodo}
                 >
                         <div className={classes.textModal}>
@@ -64,16 +48,6 @@ class Todo extends React.Component{
     }
 }
 
-// const mapDispatchToProps = dispatch =>({
-//     hideModal:()=>dispatch(hideModal()),
-//     showModal:(modalProps,modalTypes)=>{
-//         // console.log('test showmodal',modalTypes);
-//         dispatch(showModal(modalProps,modalTypes))
-//     }
-// })
-
-// export default connect(null,mapDispatchToProps)(Todo);
-// export default Todo;
 
 const StyledTodo = injectSheet(styles)(Todo);
 export default StyledTodo;

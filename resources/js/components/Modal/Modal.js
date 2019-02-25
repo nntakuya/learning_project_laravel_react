@@ -11,6 +11,7 @@ class Modal extends Component {
 
           this.handleKeyUp = this.handleKeyUp.bind(this);
           this.handleOutsideClick = this.handleOutsideClick.bind(this);
+          this.handleDeleteClick = this.handleDeleteClick.bind(this);
      }
 
      componentDidMount(){
@@ -39,11 +40,8 @@ class Modal extends Component {
                     window.removeEventListener("keyup",this.handleKeyUp, false);//WindowにセットされたEveneListenerを解除
                }
           };
-          console.log('【handleKeyUp keys】keys',keys);
 
           if (keys[e.keyCode]) {
-               console.log('発動！！！！！！！！！！！！！！！',e.keyCode);
-
                keys[e.keyCode]();
           }
      }
@@ -59,9 +57,29 @@ class Modal extends Component {
           }
      }
 
+     handleDeleteClick(e){
+          const {onCloseRequest,onDeleteTodo,id}=this.props
+          console.log('test',this.props);
+
+          if(!isNil(this.modal)){
+               console.log('success',this.modal);
+               onDeleteTodo(id);
+               onCloseRequest();
+               document.removeEventListener("click",this.handleOutsideClick,false);
+               // if(!this.modal.contains(e.target)){
+               //      console.log('success2');
+               //      onDeleteTodo(id);
+               //      onCloseRequest();
+               //      document.removeEventListener("click",this.handleOutsideClick,false);
+               // }
+          }
+
+     }
+
+
      render(){
-          const { onCloseRequest, children, classes,onDeleteTodo } = this.props;
-          // console.log('Modal',this.props);
+          const { onCloseRequest, children, classes } = this.props;
+
 
           return (
                <div className={classes.modalOverlay}>
@@ -70,8 +88,9 @@ class Modal extends Component {
                          <form
                               onSubmit={e=>e.preventDefault()}
                          >
-                              <button onClick={onCloseRequest}>Cancel</button>
-                              <button onClick={onDeleteTodo}>Delete</button>
+                              <button type="button" onClick={onCloseRequest}>Cancel</button>
+                              {/* 関数を使用する際には、 "this"から始める */}
+                              <button type="button" onClick={this.handleDeleteClick}>Delete</button>
                          </form>
                     </div>
                     <button

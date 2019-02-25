@@ -93768,7 +93768,18 @@ function () {
   }, {
     key: "delete",
     value: function _delete(payload) {
-      console.log('【api.js delete】', payload);
+      console.log('【api.js delete】', payload.id);
+      return isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1___default()('/api/deleteTodo', {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json,text-plain,*/*",
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          id: payload.id
+        })
+      });
     }
   }]);
 
@@ -93965,6 +93976,7 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Modal).call(this, props));
     _this.handleKeyUp = _this.handleKeyUp.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleOutsideClick = _this.handleOutsideClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleDeleteClick = _this.handleDeleteClick.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
@@ -94000,10 +94012,8 @@ function (_Component) {
           window.removeEventListener("keyup", _this2.handleKeyUp, false); //WindowにセットされたEveneListenerを解除
         }
       };
-      console.log('【handleKeyUp keys】keys', keys);
 
       if (keys[e.keyCode]) {
-        console.log('発動！！！！！！！！！！！！！！！', e.keyCode);
         keys[e.keyCode]();
       }
     }
@@ -94020,16 +94030,35 @@ function (_Component) {
       }
     }
   }, {
+    key: "handleDeleteClick",
+    value: function handleDeleteClick(e) {
+      var _this$props = this.props,
+          onCloseRequest = _this$props.onCloseRequest,
+          onDeleteTodo = _this$props.onDeleteTodo,
+          id = _this$props.id;
+      console.log('test', this.props);
+
+      if (!lodash_fp_isNil__WEBPACK_IMPORTED_MODULE_3___default()(this.modal)) {
+        console.log('success', this.modal);
+        onDeleteTodo(id);
+        onCloseRequest();
+        document.removeEventListener("click", this.handleOutsideClick, false); // if(!this.modal.contains(e.target)){
+        //      console.log('success2');
+        //      onDeleteTodo(id);
+        //      onCloseRequest();
+        //      document.removeEventListener("click",this.handleOutsideClick,false);
+        // }
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
-      var _this$props = this.props,
-          onCloseRequest = _this$props.onCloseRequest,
-          children = _this$props.children,
-          classes = _this$props.classes,
-          onDeleteTodo = _this$props.onDeleteTodo; // console.log('Modal',this.props);
-
+      var _this$props2 = this.props,
+          onCloseRequest = _this$props2.onCloseRequest,
+          children = _this$props2.children,
+          classes = _this$props2.classes;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: classes.modalOverlay
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -94044,9 +94073,11 @@ function (_Component) {
           return e.preventDefault();
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
         onClick: onCloseRequest
       }, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: onDeleteTodo
+        type: "button",
+        onClick: this.handleDeleteClick
       }, "Delete"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         className: classes.closeButton,
@@ -94214,21 +94245,8 @@ function (_React$Component) {
   function Todo(props) {
     _classCallCheck(this, Todo);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Todo).call(this)); // console.log(props);
-    // const {classes} = props
-    // console.log('sample',classes);
-    // this.openAlertModal = this.openAlertModal.bind(this);
-  } // openAlertModal(event){
-  //     //下記のcloseModalメソッドは認識されない気がする
-  //     console.log('openAlertModal prpos',this.props);
-  //     this.props.showModal({
-  //         open:true,
-  //         title:'Alert Modal',
-  //         message:'Message',
-  //         // closeModal:this.closeModal
-  //     },'alert')
-  // }
-
+    return _possibleConstructorReturn(this, _getPrototypeOf(Todo).call(this));
+  }
 
   _createClass(Todo, [{
     key: "render",
@@ -94262,6 +94280,7 @@ function (_React$Component) {
         }
       }, "\u524A\u9664")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_ModalLauncher_ModalLauncher__WEBPACK_IMPORTED_MODULE_3__["default"], {
         buttonLabel: "Open Modal",
+        id: id,
         onDeleteTodo: onDeleteTodo
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: classes.textModal
@@ -94270,16 +94289,7 @@ function (_React$Component) {
   }]);
 
   return Todo;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component); // const mapDispatchToProps = dispatch =>({
-//     hideModal:()=>dispatch(hideModal()),
-//     showModal:(modalProps,modalTypes)=>{
-//         // console.log('test showmodal',modalTypes);
-//         dispatch(showModal(modalProps,modalTypes))
-//     }
-// })
-// export default connect(null,mapDispatchToProps)(Todo);
-// export default Todo;
-
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 var StyledTodo = react_jss__WEBPACK_IMPORTED_MODULE_4___default()(_TodoStyles__WEBPACK_IMPORTED_MODULE_5__["default"])(Todo);
 /* harmony default export */ __webpack_exports__["default"] = (StyledTodo);
@@ -94649,18 +94659,15 @@ function (_Component) {
     _this.state = {
       showModal: false
     };
-    console.log('ModalLauncher const', props);
     return _this;
   }
 
   _createClass(ModalLauncher, [{
     key: "handleToggleModal",
     value: function handleToggleModal() {
-      console.log('【ModalLauncher handleToggleModal before】', this.state);
       this.setState({
         showModal: !this.state.showModal
       });
-      console.log('【ModalLauncher handleToggleModal after】', this.state);
     }
   }, {
     key: "render",
@@ -94671,17 +94678,18 @@ function (_Component) {
           buttonLabel = _this$props.buttonLabel,
           children = _this$props.children,
           classes = _this$props.classes,
-          onDeleteTodo = _this$props.onDeleteTodo;
+          onDeleteTodo = _this$props.onDeleteTodo,
+          id = _this$props.id;
       var showModal = this.state.showModal;
-      console.log('【ModalLauncher showModal】', onDeleteTodo); //【疑問】 下記のやり方は、良いのか疑問
+      console.log('id', id); //【疑問】 下記のやり方は、良いのか疑問
       //  どうやら、showModalの評価がtrueの場合は "Modal"コンポーネントがそのまま評価される
       //  falseの場合、"Modal"コンポーネントを含めた評価がfalseとなり、結果としてModalコンポーネントが表示される
+      // console.log('【ModalLauncher testA 】',showModal &&(
+      //      <Modal onCloseRequest={()=>this.handleToggleModal()}>
+      //           {children}
+      //      </Modal>
+      // ));
 
-      console.log('【ModalLauncher testA 】', showModal && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Modal_Modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        onCloseRequest: function onCloseRequest() {
-          return _this2.handleToggleModal();
-        }
-      }, children));
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         className: classes.modalButton,
@@ -94692,6 +94700,7 @@ function (_Component) {
         onCloseRequest: function onCloseRequest() {
           return _this2.handleToggleModal();
         },
+        id: id,
         onDeleteTodo: onDeleteTodo
       }, children));
     }

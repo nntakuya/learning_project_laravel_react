@@ -34,6 +34,10 @@ class TodoController extends Controller
         $todo->save();
     }
 
+    public function delete(Request $request){
+        logger($request);
+    }
+
 
     // public function addTodo(Request $request){
     //

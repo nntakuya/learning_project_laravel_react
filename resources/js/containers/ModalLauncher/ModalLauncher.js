@@ -10,27 +10,24 @@ class ModalLauncher extends Component {
           this.state = {
                showModal: false
           };
-          console.log('ModalLauncher const',props);
      }
 
      handleToggleModal(){
-          console.log('【ModalLauncher handleToggleModal before】',this.state);
           this.setState({ showModal: !this.state.showModal});
-          console.log('【ModalLauncher handleToggleModal after】',this.state);
      }
 
      render(){
-          const { buttonLabel, children, classes,onDeleteTodo } = this.props;
+          const { buttonLabel, children, classes,onDeleteTodo,id } = this.props;
           const {showModal} = this.state;
-          console.log('【ModalLauncher showModal】',onDeleteTodo);
+          console.log('id',id);
           //【疑問】 下記のやり方は、良いのか疑問
           //  どうやら、showModalの評価がtrueの場合は "Modal"コンポーネントがそのまま評価される
           //  falseの場合、"Modal"コンポーネントを含めた評価がfalseとなり、結果としてModalコンポーネントが表示される
-          console.log('【ModalLauncher testA 】',showModal &&(
-               <Modal onCloseRequest={()=>this.handleToggleModal()}>
-                    {children}
-               </Modal>
-          ));
+          // console.log('【ModalLauncher testA 】',showModal &&(
+          //      <Modal onCloseRequest={()=>this.handleToggleModal()}>
+          //           {children}
+          //      </Modal>
+          // ));
 
           return(
                <div>
@@ -45,6 +42,7 @@ class ModalLauncher extends Component {
                     {showModal && (
                          <Modal
                               onCloseRequest={()=>this.handleToggleModal()}
+                              id={id}
                               onDeleteTodo={onDeleteTodo}
                          >
                               {children}

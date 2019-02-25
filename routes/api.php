@@ -23,4 +23,5 @@ Route::group(['middleware'=>'api'],function(){
     Route::get('getTodos','TodoController@getTodos');
     Route::post('createTodo','TodoController@create');
     Route::post('editTodo','TodoController@edit');
+    Route::post('deleteTodo','TodoController@delete');
 });
