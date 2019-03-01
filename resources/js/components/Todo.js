@@ -32,10 +32,10 @@ class Todo extends React.Component{
                     />
                     <br/>
                     <button onClick={e => onEditTodo(id,title,new_title)}>編集です</button>
-                    <button onClick={e => onDeleteTodo(id)}>削除</button>
+                    {/* <button onClick={e => onDeleteTodo(id)}>削除</button> */}
                 </form>
                 <ModalLauncher
-                    buttonLabel="Open Modal"
+                    buttonLabel="削除"
                     id={id}
                     onDeleteTodo={onDeleteTodo}
                 >

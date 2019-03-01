@@ -93715,7 +93715,7 @@ function () {
   }, {
     key: "add",
     value: function add(payload) {
-      console.log('【api.js add payload】', payload); //(TODO)下記の処理にcsrf対策を施す必要がある。
+      console.log('【api.js add payload title】', payload.title); //(TODO)下記の処理にcsrf対策を施す必要がある。
 
       return isomorphic_fetch__WEBPACK_IMPORTED_MODULE_1___default()('/api/createTodo', {
         headers: {
@@ -93732,11 +93732,19 @@ function () {
         return res.json();
       }).then(function (res) {
         console.log('【api.js add payload success】', res);
+
+        if (res.errors) {
+          console.log('【api.js validation error】', res.errors.title);
+          return {
+            errors: res.errors
+          };
+        }
+
         return {
           data: res.title
         };
       }).catch(function (error) {
-        console.log('【api.js add payload】', error);
+        console.log('【api.js add payload error】', error);
         return error;
       });
     }
@@ -94274,12 +94282,8 @@ function (_React$Component) {
         onClick: function onClick(e) {
           return onEditTodo(id, title, new_title);
         }
-      }, "\u7DE8\u96C6\u3067\u3059"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: function onClick(e) {
-          return onDeleteTodo(id);
-        }
-      }, "\u524A\u9664")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_ModalLauncher_ModalLauncher__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        buttonLabel: "Open Modal",
+      }, "\u7DE8\u96C6\u3067\u3059")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_ModalLauncher_ModalLauncher__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        buttonLabel: "\u524A\u9664",
         id: id,
         onDeleteTodo: onDeleteTodo
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -94318,7 +94322,9 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 
 var TodoForm = function TodoForm(props) {
-  var handleSubmit = props.handleSubmit;
+  var handleSubmit = props.handleSubmit,
+      error = props.error; // console.log('error',error);
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: handleSubmit(submit)
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -94375,8 +94381,8 @@ var renderField = function renderField(_ref) {
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux_form__WEBPACK_IMPORTED_MODULE_3__["reduxForm"])({
   form: 'contentForm',
-  onSubmitSuccess: afterSubmit,
-  validate: validate
+  onSubmitSuccess: afterSubmit // validate,
+
 })(TodoForm));
 
 /***/ }),
@@ -94951,21 +94957,17 @@ function rootSaga() {
 
         case 2:
           _context.next = 4;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('ADD_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todosAdd"]);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])('EDIT_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todoEdit"]);
 
         case 4:
           _context.next = 6;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeLatest"])('EDIT_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todoEdit"]);
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('DELETE_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todoDelete"]);
 
         case 6:
           _context.next = 8;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["takeEvery"])('DELETE_TODO_FETCH', _todo__WEBPACK_IMPORTED_MODULE_2__["todoDelete"]);
-
-        case 8:
-          _context.next = 10;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(_todo__WEBPACK_IMPORTED_MODULE_2__["handleSubmitForm"]);
 
-        case 10:
+        case 8:
         case "end":
           return _context.stop();
       }
@@ -94979,7 +94981,7 @@ function rootSaga() {
 /*!************************************!*\
   !*** ./resources/js/sagas/todo.js ***!
   \************************************/
-/*! exports provided: todosFetchList, todoEdit, todoDelete, todosAdd, handleSubmitForm */
+/*! exports provided: todosFetchList, todoEdit, todoDelete, handleSubmitForm */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94987,7 +94989,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todosFetchList", function() { return todosFetchList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todoEdit", function() { return todoEdit; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todoDelete", function() { return todoDelete; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "todosAdd", function() { return todosAdd; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handleSubmitForm", function() { return handleSubmitForm; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
@@ -95007,9 +95008,6 @@ _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todoEdit)
 /*#__PURE__*/
 _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todoDelete),
     _marked4 =
-/*#__PURE__*/
-_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(todosAdd),
-    _marked5 =
 /*#__PURE__*/
 _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(handleSubmitForm);
 
@@ -95067,90 +95065,89 @@ function todoDelete(action) {
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].delete, action);
 
         case 3:
+          _context3.next = 5;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(todosFetchList);
+
+        case 5:
         case "end":
           return _context3.stop();
       }
     }
   }, _marked3, this);
-}
-function todosAdd(action) {
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function todosAdd$(_context4) {
+} // export function* todosAdd(action){
+//     console.log('【sagaFunction todosAdd】',action);
+//     yield call(TodoAPI.add,action.todo);
+//     // yield put({type:'TODO_ADD',todo:action.todo});
+//     // action.callbackSuccess();
+// }
+
+function handleSubmitForm() {
+  var action, params, _ref, data, errors;
+
+  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function handleSubmitForm$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
-        case 0:
-          console.log('【sagaFunction todosAdd】', action);
-          _context4.next = 3;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].add, action.todo);
-
-        case 3:
-        case "end":
-          return _context4.stop();
-      }
-    }
-  }, _marked4, this);
-}
-function handleSubmitForm() {
-  var action, params, _ref, data, error;
-
-  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function handleSubmitForm$(_context5) {
-    while (1) {
-      switch (_context5.prev = _context5.next) {
         case 0:
           console.log('【handleSubmitForm】');
 
         case 1:
           if (false) {}
 
-          _context5.next = 4;
+          _context4.next = 4;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["take"])(_actions__WEBPACK_IMPORTED_MODULE_3__["SUBMIT_FORM"]);
 
         case 4:
-          action = _context5.sent;
+          action = _context4.sent;
           params = action.payload.params;
-          _context5.next = 8;
+          _context4.next = 8;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["startSubmit"])('contentForm'));
 
         case 8:
-          _context5.next = 10;
+          _context4.next = 10;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["call"])(_api__WEBPACK_IMPORTED_MODULE_2__["default"].add, params);
 
         case 10:
-          _ref = _context5.sent;
+          _ref = _context4.sent;
           data = _ref.data;
-          error = _ref.error;
+          errors = _ref.errors;
+          console.log('【saga/todo.js reutrn data】', data);
+          console.log('【saga/todo.js reutrn errors】', errors);
 
-          if (!(data && !error)) {
-            _context5.next = 21;
+          if (!(data && !errors)) {
+            _context4.next = 23;
             break;
           }
 
           console.log('success');
-          _context5.next = 17;
+          _context4.next = 19;
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm'));
-
-        case 17:
-          _context5.next = 19;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(todosFetchList);
 
         case 19:
-          _context5.next = 24;
-          break;
+          _context4.next = 21;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(todosFetchList);
 
         case 21:
-          console.log('fail');
-          _context5.next = 24;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm'));
-
-        case 24:
-          _context5.next = 1;
+          _context4.next = 27;
           break;
 
+        case 23:
+          console.log('fail');
+          _context4.next = 26;
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm'));
+
         case 26:
+          throw new redux_form__WEBPACK_IMPORTED_MODULE_4__["SubmissionError"](errors);
+
+        case 27:
+          _context4.next = 1;
+          break;
+
+        case 29:
         case "end":
-          return _context5.stop();
+          return _context4.stop();
       }
     }
-  }, _marked5, this);
+  }, _marked4, this);
 }
 
 /***/ }),

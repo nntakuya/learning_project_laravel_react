@@ -1,7 +1,7 @@
 import { call, put,take,fork } from 'redux-saga/effects';
 import TodoAPI from '../api';
 import {SUBMIT_FORM} from '../actions';
-import {startSubmit, stopSubmit, reset} from 'redux-form';
+import {startSubmit, stopSubmit, reset, SubmissionError} from 'redux-form';
 
 
 export function* todosFetchList(action){
@@ -21,17 +21,18 @@ export function* todoEdit(payload){
 export function* todoDelete(action){
     console.log('【sagaFunction todoDelete',action);
     yield call(TodoAPI.delete,action);
+    yield fork(todosFetchList);
     // yield put({type: 'TODO_DELETE',todo:action.todo});
     // action.callbackSuccess();
 }
 
-export function* todosAdd(action){
-    console.log('【sagaFunction todosAdd】',action);
+// export function* todosAdd(action){
+//     console.log('【sagaFunction todosAdd】',action);
 
-    yield call(TodoAPI.add,action.todo);
-    // yield put({type:'TODO_ADD',todo:action.todo});
-    // action.callbackSuccess();
-}
+//     yield call(TodoAPI.add,action.todo);
+//     // yield put({type:'TODO_ADD',todo:action.todo});
+//     // action.callbackSuccess();
+// }
 
 export function* handleSubmitForm(){
     console.log('【handleSubmitForm】');
@@ -41,10 +42,11 @@ export function* handleSubmitForm(){
 
         yield put(startSubmit('contentForm'));
 
-        const {data,error} = yield call(TodoAPI.add,params);
-        // console.log('【saga/todo.js reutrn data】',data);
+        const {data,errors} = yield call(TodoAPI.add,params);
+        console.log('【saga/todo.js reutrn data】',data);
+        console.log('【saga/todo.js reutrn errors】',errors);
 
-        if (data && !error) {
+        if (data && !errors) {
             console.log('success');
             yield put(stopSubmit('contentForm'));
 
@@ -65,6 +67,7 @@ export function* handleSubmitForm(){
         }else{
             console.log('fail');
             yield put(stopSubmit('contentForm'));
+            throw new SubmissionError(errors);
         }
     }
 }

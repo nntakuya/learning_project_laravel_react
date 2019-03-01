@@ -15,8 +15,9 @@ export default class TodoAPI {
             });
     }
 
+
     static add(payload){
-        console.log('【api.js add payload】',payload);
+        console.log('【api.js add payload title】',payload.title);
         //(TODO)下記の処理にcsrf対策を施す必要がある。
         return fetch(
                     '/api/createTodo',
@@ -36,10 +37,16 @@ export default class TodoAPI {
                 .then(res=>res.json())
                 .then((res)=>{
                     console.log('【api.js add payload success】',res);
+
+                    if (res.errors) {
+                        console.log('【api.js validation error】',res.errors.title);
+                        return {errors:res.errors};
+                    }
+
                     return {data:res.title};
                 })
                 .catch(error=>{
-                    console.log('【api.js add payload】',error);
+                    console.log('【api.js add payload error】',error);
                     return error;
                 })
     }

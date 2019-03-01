@@ -5,10 +5,13 @@ import { reduxForm, Field, reset } from 'redux-form';
 
 const TodoForm = (props)=>{
 
-    const {handleSubmit} = props;
+    const {handleSubmit,error} = props;
+    // console.log('error',error);
+    
 
     return(
         <form onSubmit={handleSubmit(submit)}>
+             {/* {error && {error}} */}
             <div>
                 <label htmlFor="todo">Todo</label>
                 <Field
@@ -67,5 +70,5 @@ const renderField =({
 export default reduxForm({
     form:'contentForm',
     onSubmitSuccess: afterSubmit,
-    validate,
+    // validate,
 })(TodoForm);

@@ -18,7 +18,8 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array
      */
+    // 'api'はワイルドカードが使える
     protected $except = [
-        //
+        'api/*'
     ];
 }
