@@ -46,6 +46,29 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        //エラー時のログをjson形式で返す
+        // if ($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException)
+        // {
+        //     return response()->json([
+        //             'message' => 'Resource not found'
+        //         ], 404);
+        // }
+
+        // logger($request);
+        if ($request->ajax() || $request->wantsJson())
+        {
+            $json = [
+                'success' => false,
+                'error' => [
+                    'code' => $e->getCode(),
+                    'message' => $e->getMessage(),
+                ],
+            ];
+            return response()->json($json, 400);
+        }
+
+
+
         return parent::render($request, $exception);
     }
 }

@@ -66,8 +66,8 @@ export function* handleSubmitForm(){
             // yield put(reset('contentForm'));
         }else{
             console.log('fail');
-            yield put(stopSubmit('contentForm'));
-            throw new SubmissionError(errors);
+            yield put(stopSubmit('contentForm',{_error:errors}));
+            // throw new SubmissionError(errors);
         }
     }
 }

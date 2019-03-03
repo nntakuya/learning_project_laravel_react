@@ -94323,13 +94323,18 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var TodoForm = function TodoForm(props) {
   var handleSubmit = props.handleSubmit,
-      error = props.error; // console.log('error',error);
+      error = props.error;
+  console.log('props', error); // if (error) {
+  //     console.log('エラー',error.title[0]);
+  //     const title = error.title[0];
+  //     console.log('タイトル',title);
+  // }
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: handleSubmit(submit)
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "todo"
-  }, "Todo"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(redux_form__WEBPACK_IMPORTED_MODULE_3__["Field"], {
+  }, "Todo"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), error && error.title, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(redux_form__WEBPACK_IMPORTED_MODULE_3__["Field"], {
     name: "title",
     component: renderField,
     type: "text",
@@ -95127,22 +95132,21 @@ function handleSubmitForm() {
           return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["fork"])(todosFetchList);
 
         case 21:
-          _context4.next = 27;
+          _context4.next = 26;
           break;
 
         case 23:
           console.log('fail');
           _context4.next = 26;
-          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm'));
+          return Object(redux_saga_effects__WEBPACK_IMPORTED_MODULE_1__["put"])(Object(redux_form__WEBPACK_IMPORTED_MODULE_4__["stopSubmit"])('contentForm', {
+            _error: errors
+          }));
 
         case 26:
-          throw new redux_form__WEBPACK_IMPORTED_MODULE_4__["SubmissionError"](errors);
-
-        case 27:
           _context4.next = 1;
           break;
 
-        case 29:
+        case 28:
         case "end":
           return _context4.stop();
       }

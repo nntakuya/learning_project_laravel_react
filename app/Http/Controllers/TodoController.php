@@ -21,7 +21,7 @@ class TodoController extends Controller
 
         $todo = new Todo;
         $todo->title = $request->title;
-        // $todo->save();
+        $todo->save();
 
         return response()->json([
             'title'=>$request->title

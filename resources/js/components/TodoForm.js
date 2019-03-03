@@ -6,14 +6,21 @@ import { reduxForm, Field, reset } from 'redux-form';
 const TodoForm = (props)=>{
 
     const {handleSubmit,error} = props;
-    // console.log('error',error);
-    
+    console.log('props',error);
+    // if (error) {
+    //     console.log('エラー',error.title[0]);
+    //     const title = error.title[0];
+    //     console.log('タイトル',title);
+    // }
+
 
     return(
         <form onSubmit={handleSubmit(submit)}>
-             {/* {error && {error}} */}
+
             <div>
                 <label htmlFor="todo">Todo</label>
+                <br/>
+                {error && error.title}
                 <Field
                     name="title"
                     component={renderField}
